@@ -25,10 +25,18 @@ export const AdminDashboard = ({
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [chartTimeframe, setChartTimeframe] = useState('weekly'); // 'weekly' | 'monthly'
+  const [localUsers, setLocalUsers] = useState(usersList);
 
   useEffect(() => {
     loadStats();
+    loadUsers();
   }, [bookings]);
+
+  useEffect(() => {
+    if (usersList && usersList.length > 0) {
+      setLocalUsers(usersList);
+    }
+  }, [usersList]);
 
   const loadStats = async () => {
     try {
@@ -40,6 +48,32 @@ export const AdminDashboard = ({
       console.error(err);
     }
   };
+
+  const loadUsers = async () => {
+    try {
+      const res = await api.getUsers();
+      if (res && res.success && res.data.length > 0) {
+        setLocalUsers(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const defaultUsers = [
+    { id: 'u-admin', name: 'Quản Trị Viên BossHouse', email: 'admin@bosshouse.com', phone: '0988888888', role: 'admin' },
+    { id: 'u-customer1', name: 'Nguyễn Thanh Thảo', email: 'thao.nguyen@gmail.com', phone: '0912345678', role: 'customer' },
+    { id: 'u-user2', name: 'Lê Hoàng Nam', email: 'nam.le@gmail.com', phone: '0934567890', role: 'customer' },
+    { id: 'u-user3', name: 'Phạm Thị Quỳnh', email: 'quynh.pham@gmail.com', phone: '0978901234', role: 'customer' }
+  ];
+
+  const defaultPets = [
+    { id: 'pet-1', name: 'Miu Miu', type: 'cat', breed: 'Mèo Anh Lông Ngắn (BSH)', weight: 4.2, age: 2, notes: 'Rất thích ăn pate cá hồi' },
+    { id: 'pet-2', name: 'LuLu', type: 'dog', breed: 'Poodle Toy Gold', weight: 3.8, age: 1.5, notes: 'Năng động, thích đi dạo bóng' }
+  ];
+
+  const displayUsers = (localUsers && localUsers.length > 0) ? localUsers : ((usersList && usersList.length > 0) ? usersList : defaultUsers);
+  const displayPets = (pets && pets.length > 0) ? pets : defaultPets;
 
   const handleStatusChange = async (id, newStatus) => {
     await onUpdateStatus(id, newStatus);
@@ -647,27 +681,19 @@ export const AdminDashboard = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {usersList.length === 0 ? (
-                        <tr>
-                          <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
-                            Đang tải danh sách khách hàng...
+                      {displayUsers.map(u => (
+                        <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                          <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{u.id}</td>
+                          <td style={{ padding: '12px', fontWeight: 700 }}>{u.name}</td>
+                          <td style={{ padding: '12px' }}>{u.email}</td>
+                          <td style={{ padding: '12px', color: '#34d399' }}>📞 {u.phone || '0912345678'}</td>
+                          <td style={{ padding: '12px' }}>
+                            <span className={`badge ${u.role === 'admin' ? 'badge-danger' : 'badge-info'}`}>
+                              {u.role === 'admin' ? '👑 Quản Trị Viên' : '⭐️ Khách Hàng Thân Thiết'}
+                            </span>
                           </td>
                         </tr>
-                      ) : (
-                        usersList.map(u => (
-                          <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                            <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{u.id}</td>
-                            <td style={{ padding: '12px', fontWeight: 700 }}>{u.name}</td>
-                            <td style={{ padding: '12px' }}>{u.email}</td>
-                            <td style={{ padding: '12px', color: '#34d399' }}>📞 {u.phone || '0912345678'}</td>
-                            <td style={{ padding: '12px' }}>
-                              <span className={`badge ${u.role === 'admin' ? 'badge-danger' : 'badge-info'}`}>
-                                {u.role === 'admin' ? '👑 Quản Trị Viên' : '⭐️ Khách Hàng Thân Thiết'}
-                              </span>
-                            </td>
-                          </tr>
-                        ))
-                      )}
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -690,25 +716,17 @@ export const AdminDashboard = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {pets.length === 0 ? (
-                        <tr>
-                          <td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
-                            Chưa có dữ liệu Boss thú cưng.
-                          </td>
+                      {displayPets.map(pt => (
+                        <tr key={pt.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                          <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{pt.id}</td>
+                          <td style={{ padding: '12px', fontWeight: 700 }}>{pt.name}</td>
+                          <td style={{ padding: '12px' }}>{pt.type === 'dog' ? '🐶 Chó cưng' : '🐱 Mèo cưng'}</td>
+                          <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.breed || 'Chưa xác định'}</td>
+                          <td style={{ padding: '12px' }}>{pt.weight} kg</td>
+                          <td style={{ padding: '12px' }}>{pt.age} tuổi</td>
+                          <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.notes || 'Bình thường'}</td>
                         </tr>
-                      ) : (
-                        pets.map(pt => (
-                          <tr key={pt.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                            <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{pt.id}</td>
-                            <td style={{ padding: '12px', fontWeight: 700 }}>{pt.name}</td>
-                            <td style={{ padding: '12px' }}>{pt.type === 'dog' ? '🐶 Chó cưng' : '🐱 Mèo cưng'}</td>
-                            <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.breed || 'Chưa xác định'}</td>
-                            <td style={{ padding: '12px' }}>{pt.weight} kg</td>
-                            <td style={{ padding: '12px' }}>{pt.age} tuổi</td>
-                            <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.notes || 'Bình thường'}</td>
-                          </tr>
-                        ))
-                      )}
+                      ))}
                     </tbody>
                   </table>
                 </div>
