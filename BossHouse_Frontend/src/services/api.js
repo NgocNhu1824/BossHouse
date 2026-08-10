@@ -32,14 +32,67 @@ export const api = {
     return res.json();
   },
 
-  // Rooms & Services
+  // Rooms CRUD
   getRooms: async (category = 'all') => {
     const res = await fetch(`${API_BASE_URL}/rooms?category=${category}`);
     return res.json();
   },
 
+  createRoom: async (roomData) => {
+    const res = await fetch(`${API_BASE_URL}/rooms`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify(roomData)
+    });
+    return res.json();
+  },
+
+  updateRoom: async (id, roomData) => {
+    const res = await fetch(`${API_BASE_URL}/rooms/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify(roomData)
+    });
+    return res.json();
+  },
+
+  deleteRoom: async (id) => {
+    const res = await fetch(`${API_BASE_URL}/rooms/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return res.json();
+  },
+
+  // Services CRUD
   getServices: async (category = 'all') => {
     const res = await fetch(`${API_BASE_URL}/services?category=${category}`);
+    return res.json();
+  },
+
+  createService: async (serviceData) => {
+    const res = await fetch(`${API_BASE_URL}/services`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify(serviceData)
+    });
+    return res.json();
+  },
+
+  updateService: async (id, serviceData) => {
+    const res = await fetch(`${API_BASE_URL}/services/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify(serviceData)
+    });
+    return res.json();
+  },
+
+  deleteService: async (id) => {
+    const res = await fetch(`${API_BASE_URL}/services/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
     return res.json();
   },
 

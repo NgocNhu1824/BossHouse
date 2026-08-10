@@ -5,6 +5,7 @@ import { Toast } from './components/Toast';
 import { BookingModal } from './components/BookingModal';
 import { PetModal } from './components/PetModal';
 import { AuthModal } from './components/AuthModal';
+import { RoomModal, ServiceModal } from './components/AdminModals';
 import { Chatbox } from './components/Chatbox';
 
 import { HomePage } from './pages/HomePage';
@@ -28,11 +29,17 @@ export default function App() {
   const [bookings, setBookings] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  // Modals
+  // Customer Modals
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedRoomForBooking, setSelectedRoomForBooking] = useState(null);
   const [isPetModalOpen, setIsPetModalOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // Admin CRUD Modals
+  const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
+  const [selectedRoomForEdit, setSelectedRoomForEdit] = useState(null);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [selectedServiceForEdit, setSelectedServiceForEdit] = useState(null);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -221,7 +228,7 @@ export default function App() {
     }
   };
 
-  // Admin Handler
+  // Admin Booking Status Handler
   const handleUpdateBookingStatus = async (id, status) => {
     try {
       const res = await api.updateBookingStatus(id, status);
@@ -233,6 +240,80 @@ export default function App() {
       }
     } catch (err) {
       showToast('Lỗi khi đổi trạng thái', 'error');
+    }
+  };
+
+  // Admin Room CRUD Handlers
+  const handleSaveRoom = async (roomData) => {
+    try {
+      let res;
+      if (selectedRoomForEdit) {
+        res = await api.updateRoom(selectedRoomForEdit.id, roomData);
+      } else {
+        res = await api.createRoom(roomData);
+      }
+      if (res.success) {
+        showToast(res.message, 'success');
+        setIsRoomModalOpen(false);
+        setSelectedRoomForEdit(null);
+        fetchInitialData();
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi lưu thông tin phòng', 'error');
+    }
+  };
+
+  const handleDeleteRoom = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa phòng khách sạn này?')) return;
+    try {
+      const res = await api.deleteRoom(id);
+      if (res.success) {
+        showToast(res.message, 'info');
+        fetchInitialData();
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi xóa phòng', 'error');
+    }
+  };
+
+  // Admin Service CRUD Handlers
+  const handleSaveService = async (serviceData) => {
+    try {
+      let res;
+      if (selectedServiceForEdit) {
+        res = await api.updateService(selectedServiceForEdit.id, serviceData);
+      } else {
+        res = await api.createService(serviceData);
+      }
+      if (res.success) {
+        showToast(res.message, 'success');
+        setIsServiceModalOpen(false);
+        setSelectedServiceForEdit(null);
+        fetchInitialData();
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi lưu thông tin dịch vụ', 'error');
+    }
+  };
+
+  const handleDeleteService = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa dịch vụ Spa này?')) return;
+    try {
+      const res = await api.deleteService(id);
+      if (res.success) {
+        showToast(res.message, 'info');
+        fetchInitialData();
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi xóa dịch vụ', 'error');
     }
   };
 
@@ -252,7 +333,7 @@ export default function App() {
       />
 
       {/* Main Tab Views */}
-      <main className="main-content">
+      <main className="main-content" style={{ paddingBottom: activeTab === 'admin' ? 0 : '60px' }}>
         {activeTab === 'home' && (
           <HomePage 
             rooms={rooms} 
@@ -305,16 +386,25 @@ export default function App() {
         {activeTab === 'admin' && (
           <AdminDashboard 
             bookings={bookings} 
+            rooms={rooms}
+            services={services}
+            pets={pets}
             onUpdateStatus={handleUpdateBookingStatus} 
-            onRefreshData={fetchUserData} 
+            onRefreshData={fetchInitialData} 
+            onOpenAddRoom={() => { setSelectedRoomForEdit(null); setIsRoomModalOpen(true); }}
+            onEditRoom={(rm) => { setSelectedRoomForEdit(rm); setIsRoomModalOpen(true); }}
+            onDeleteRoom={handleDeleteRoom}
+            onOpenAddService={() => { setSelectedServiceForEdit(null); setIsServiceModalOpen(true); }}
+            onEditService={(sv) => { setSelectedServiceForEdit(sv); setIsServiceModalOpen(true); }}
+            onDeleteService={handleDeleteService}
           />
         )}
       </main>
 
-      {/* Floating Chatbox Widget */}
-      <Chatbox user={user} onOpenBooking={() => handleBookRoom(rooms[0])} />
+      {/* Floating Chatbox Widget for Customer support */}
+      {activeTab !== 'admin' && <Chatbox user={user} onOpenBooking={() => handleBookRoom(rooms[0])} />}
 
-      {/* Modals */}
+      {/* Customer Modals */}
       <BookingModal 
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}
@@ -340,8 +430,23 @@ export default function App() {
         onRegister={handleRegister}
       />
 
+      {/* Admin Modals */}
+      <RoomModal 
+        isOpen={isRoomModalOpen}
+        onClose={() => { setIsRoomModalOpen(false); setSelectedRoomForEdit(null); }}
+        room={selectedRoomForEdit}
+        onSubmit={handleSaveRoom}
+      />
+
+      <ServiceModal 
+        isOpen={isServiceModalOpen}
+        onClose={() => { setIsServiceModalOpen(false); setSelectedServiceForEdit(null); }}
+        service={selectedServiceForEdit}
+        onSubmit={handleSaveService}
+      />
+
       {/* Footer */}
-      <Footer />
+      {activeTab !== 'admin' && <Footer />}
     </div>
   );
 }
