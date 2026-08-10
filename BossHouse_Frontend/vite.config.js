@@ -1,5 +1,8 @@
 // https://vite.dev/config/
 export default {
+  esbuild: {
+    jsx: 'automatic'
+  },
   server: {
     port: 5173,
     proxy: {
