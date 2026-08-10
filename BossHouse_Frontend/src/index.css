@@ -338,6 +338,11 @@ button {
 .toast-error { border-left-color: var(--color-error); }
 .toast-info { border-left-color: var(--color-info); }
 
+/* Chatbox Styles */
+.chatbox-trigger-btn:hover {
+  transform: scale(1.08);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -369,11 +374,43 @@ button {
 
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* Responsive Navbar & Layout Controls */
+.mobile-menu-trigger {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-trigger {
+    display: flex !important;
+  }
+
+  .desktop-only-btn {
+    display: none !important;
+  }
 }
 
 @media (max-width: 768px) {
-  .section-title { font-size: 1.75rem; }
-  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .container {
+    padding: 0 16px;
+  }
+
+  .section-title { 
+    font-size: 1.65rem; 
+  }
+  
+  .grid-2, .grid-3, .grid-4 { 
+    grid-template-columns: 1fr; 
+  }
+
+  .modal-container {
+    padding: 20px;
+  }
 }

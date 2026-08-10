@@ -5,6 +5,7 @@ import { Toast } from './components/Toast';
 import { BookingModal } from './components/BookingModal';
 import { PetModal } from './components/PetModal';
 import { AuthModal } from './components/AuthModal';
+import { Chatbox } from './components/Chatbox';
 
 import { HomePage } from './pages/HomePage';
 import { RoomsPage } from './pages/RoomsPage';
@@ -309,6 +310,9 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Floating Chatbox Widget */}
+      <Chatbox user={user} onOpenBooking={() => handleBookRoom(rooms[0])} />
 
       {/* Modals */}
       <BookingModal 
