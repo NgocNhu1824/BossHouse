@@ -36,4 +36,18 @@ router.get('/stats', (req, res) => {
   });
 });
 
+// GET /api/admin/users - Get all registered users/customers
+router.get('/users', (req, res) => {
+  const users = JsonDB.getCollection('users');
+  const safeUsers = users.map(u => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    phone: u.phone || '0912345678',
+    role: u.role,
+    createdAt: u.createdAt
+  }));
+  res.json({ success: true, count: safeUsers.length, data: safeUsers });
+});
+
 module.exports = router;

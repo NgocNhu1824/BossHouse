@@ -183,9 +183,16 @@ export const api = {
     return res.json();
   },
 
-  // Admin Stats
+  // Admin Stats & Users
   getAdminStats: async () => {
     const res = await fetch(`${API_BASE_URL}/admin/stats`, {
+      headers: getAuthHeaders()
+    });
+    return res.json();
+  },
+
+  getUsers: async () => {
+    const res = await fetch(`${API_BASE_URL}/admin/users`, {
       headers: getAuthHeaders()
     });
     return res.json();

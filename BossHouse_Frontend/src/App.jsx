@@ -83,19 +83,27 @@ export default function App() {
     }
   };
 
+  const [usersList, setUsersList] = useState([]);
+
   const fetchUserData = async () => {
     try {
       const savedUser = localStorage.getItem('bosshouse_user');
       const currentUser = savedUser ? JSON.parse(savedUser) : null;
+      const isAdmin = currentUser?.role === 'admin';
       const userId = currentUser ? currentUser.id : 'u-customer1';
 
       const [petsRes, bookingsRes] = await Promise.all([
-        api.getPets(userId),
-        api.getBookings(currentUser?.role === 'admin' ? '' : userId)
+        api.getPets(isAdmin ? '' : userId),
+        api.getBookings(isAdmin ? '' : userId)
       ]);
 
       if (petsRes.success) setPets(petsRes.data);
       if (bookingsRes.success) setBookings(bookingsRes.data);
+
+      if (isAdmin) {
+        const usersRes = await api.getUsers();
+        if (usersRes.success) setUsersList(usersRes.data);
+      }
     } catch (err) {
       console.error('Error fetching user data:', err);
     }
@@ -389,6 +397,7 @@ export default function App() {
             rooms={rooms}
             services={services}
             pets={pets}
+            usersList={usersList}
             onUpdateStatus={handleUpdateBookingStatus} 
             onRefreshData={fetchInitialData} 
             onOpenAddRoom={() => { setSelectedRoomForEdit(null); setIsRoomModalOpen(true); }}

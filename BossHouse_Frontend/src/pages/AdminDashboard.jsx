@@ -10,6 +10,7 @@ export const AdminDashboard = ({
   rooms = [], 
   services = [], 
   pets = [], 
+  usersList = [],
   onUpdateStatus, 
   onRefreshData,
   onOpenAddRoom,
@@ -630,33 +631,87 @@ export const AdminDashboard = ({
 
           {/* Section 5: Pets & Customers Data Table */}
           {activeAdminTab === 'pets' && (
-            <div className="card-glass" style={{ padding: '24px' }}>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '16px' }}>🐾 Hồ Sơ Boss & Danh Sách Chủ Nuôi</h3>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '2px solid var(--color-border)', color: 'var(--color-text-muted)', background: '#0f172a' }}>
-                      <th style={{ padding: '12px' }}>Mã Thú Cưng</th>
-                      <th style={{ padding: '12px' }}>Tên Boss</th>
-                      <th style={{ padding: '12px' }}>Loài</th>
-                      <th style={{ padding: '12px' }}>Cân Nặng</th>
-                      <th style={{ padding: '12px' }}>Tuổi</th>
-                      <th style={{ padding: '12px' }}>Ghi Chú Sức Khỏe</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pets.map(pt => (
-                      <tr key={pt.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                        <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{pt.id}</td>
-                        <td style={{ padding: '12px', fontWeight: 700 }}>{pt.name}</td>
-                        <td style={{ padding: '12px' }}>{pt.type === 'dog' ? '🐶 Chó' : '🐱 Mèo'}</td>
-                        <td style={{ padding: '12px' }}>{pt.weight} kg</td>
-                        <td style={{ padding: '12px' }}>{pt.age} tuổi</td>
-                        <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.notes || 'Bình thường'}</td>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Customers Table */}
+              <div className="card-glass" style={{ padding: '24px' }}>
+                <h3 style={{ fontSize: '1.2rem', marginBottom: '16px' }}>👤 Danh Sách Khách Hàng & Chủ Nuôi Đăng Ký</h3>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '2px solid var(--color-border)', color: 'var(--color-text-muted)', background: '#0f172a' }}>
+                        <th style={{ padding: '12px' }}>Mã KH</th>
+                        <th style={{ padding: '12px' }}>Tên Khách Hàng</th>
+                        <th style={{ padding: '12px' }}>Email Liên Hệ</th>
+                        <th style={{ padding: '12px' }}>Số Điện Thoại</th>
+                        <th style={{ padding: '12px' }}>Phân Cấp</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {usersList.length === 0 ? (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
+                            Đang tải danh sách khách hàng...
+                          </td>
+                        </tr>
+                      ) : (
+                        usersList.map(u => (
+                          <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                            <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{u.id}</td>
+                            <td style={{ padding: '12px', fontWeight: 700 }}>{u.name}</td>
+                            <td style={{ padding: '12px' }}>{u.email}</td>
+                            <td style={{ padding: '12px', color: '#34d399' }}>📞 {u.phone || '0912345678'}</td>
+                            <td style={{ padding: '12px' }}>
+                              <span className={`badge ${u.role === 'admin' ? 'badge-danger' : 'badge-info'}`}>
+                                {u.role === 'admin' ? '👑 Quản Trị Viên' : '⭐️ Khách Hàng Thân Thiết'}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Pets Table */}
+              <div className="card-glass" style={{ padding: '24px' }}>
+                <h3 style={{ fontSize: '1.2rem', marginBottom: '16px' }}>🐾 Danh Sách Hồ Sơ Boss Thú Cưng</h3>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '2px solid var(--color-border)', color: 'var(--color-text-muted)', background: '#0f172a' }}>
+                        <th style={{ padding: '12px' }}>Mã Thú Cưng</th>
+                        <th style={{ padding: '12px' }}>Tên Boss</th>
+                        <th style={{ padding: '12px' }}>Loài</th>
+                        <th style={{ padding: '12px' }}>Giống Thú Cưng</th>
+                        <th style={{ padding: '12px' }}>Cân Nặng</th>
+                        <th style={{ padding: '12px' }}>Tuổi</th>
+                        <th style={{ padding: '12px' }}>Ghi Chú Sức Khỏe</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pets.length === 0 ? (
+                        <tr>
+                          <td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
+                            Chưa có dữ liệu Boss thú cưng.
+                          </td>
+                        </tr>
+                      ) : (
+                        pets.map(pt => (
+                          <tr key={pt.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                            <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>#{pt.id}</td>
+                            <td style={{ padding: '12px', fontWeight: 700 }}>{pt.name}</td>
+                            <td style={{ padding: '12px' }}>{pt.type === 'dog' ? '🐶 Chó cưng' : '🐱 Mèo cưng'}</td>
+                            <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.breed || 'Chưa xác định'}</td>
+                            <td style={{ padding: '12px' }}>{pt.weight} kg</td>
+                            <td style={{ padding: '12px' }}>{pt.age} tuổi</td>
+                            <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{pt.notes || 'Bình thường'}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}
