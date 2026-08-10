@@ -535,7 +535,7 @@ export const AdminDashboard = ({
                           <span className="badge badge-info">{rm.category}</span>
                         </td>
                         <td style={{ padding: '12px', fontWeight: 800, color: 'var(--color-primary)' }}>
-                          {rm.price.toLocaleString('vi-VN')}đ
+                          {(rm.price || rm.pricePerNight || 0).toLocaleString('vi-VN')}đ
                         </td>
                         <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}>{rm.capacity}</td>
                         <td style={{ padding: '12px' }}>

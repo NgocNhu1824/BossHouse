@@ -53,7 +53,8 @@ export const BookingModal = ({ isOpen, onClose, rooms = [], services = [], pets 
   };
 
   const nights = calculateNights();
-  const roomTotal = currentRoom ? currentRoom.pricePerNight * nights : 0;
+  const roomPrice = currentRoom ? (currentRoom.pricePerNight || currentRoom.price || 150000) : 0;
+  const roomTotal = roomPrice * nights;
   const serviceTotal = selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
   const grandTotal = roomTotal + serviceTotal;
 
@@ -194,7 +195,7 @@ export const BookingModal = ({ isOpen, onClose, rooms = [], services = [], pets 
               >
                 {rooms.map(r => (
                   <option key={r.id} value={r.id}>
-                    {r.name} - {r.pricePerNight.toLocaleString('vi-VN')}đ/đêm ({r.capacity})
+                    {r.name} - {(r.pricePerNight || r.price || 150000).toLocaleString('vi-VN')}đ/đêm ({r.capacity})
                   </option>
                 ))}
               </select>

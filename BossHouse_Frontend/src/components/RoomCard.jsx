@@ -9,12 +9,15 @@ export const RoomCard = ({ room, onBook }) => {
     standard: 'Tiêu Chuẩn ⭐️'
   };
 
+  const roomPrice = room.pricePerNight || room.price || 150000;
+  const roomAmenities = room.amenities || room.features || ['Điều hòa 24/7', 'Camera Live HD', 'Nệm êm ái'];
+
   return (
     <div className="card-glass" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* Image container */}
       <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
         <img 
-          src={room.image} 
+          src={room.image || 'https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?auto=format&fit=crop&q=80&w=800'} 
           alt={room.name} 
           style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
         />
@@ -47,7 +50,7 @@ export const RoomCard = ({ room, onBook }) => {
           fontWeight: 700,
           color: '#fbbf24'
         }}>
-          <Star size={14} fill="#fbbf24" /> {room.rating}
+          <Star size={14} fill="#fbbf24" /> {room.rating || 5.0}
         </div>
       </div>
 
@@ -71,7 +74,7 @@ export const RoomCard = ({ room, onBook }) => {
           color: 'var(--color-text-muted)'
         }}>
           <div>Sức chứa: <strong style={{ color: 'white' }}>{room.capacity}</strong></div>
-          <div>Diện tích: <strong style={{ color: 'white' }}>{room.size}</strong></div>
+          <div>Diện tích: <strong style={{ color: 'white' }}>{room.size || '2.5m x 2.0m'}</strong></div>
         </div>
 
         {/* Amenities */}
@@ -80,7 +83,7 @@ export const RoomCard = ({ room, onBook }) => {
             TIỆN NGHI CAO CẤP:
           </div>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            {room.amenities.slice(0, 3).map((item, idx) => (
+            {roomAmenities.slice(0, 3).map((item, idx) => (
               <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.84rem' }}>
                 <Check size={14} color="#10b981" /> {item}
               </li>
@@ -100,7 +103,7 @@ export const RoomCard = ({ room, onBook }) => {
           <div>
             <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', display: 'block' }}>Giá lưu trú</span>
             <span style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--color-primary)' }}>
-              {room.pricePerNight.toLocaleString('vi-VN')}đ
+              {roomPrice.toLocaleString('vi-VN')}đ
               <span style={{ fontSize: '0.8rem', fontWeight: 400, color: 'var(--color-text-muted)' }}>/đêm</span>
             </span>
           </div>

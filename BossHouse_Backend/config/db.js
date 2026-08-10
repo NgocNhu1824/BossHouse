@@ -77,10 +77,13 @@ class JsonDB {
     return item;
   }
 
-  static update(collectionName, id, updateData) {
+  static update(collectionName, idOrPredicate, updateData) {
     const db = this.read();
     const list = db[collectionName] || [];
-    const index = list.findIndex(item => item.id === id);
+    const predicate = typeof idOrPredicate === 'function'
+      ? idOrPredicate
+      : item => item.id === idOrPredicate;
+    const index = list.findIndex(predicate);
     if (index !== -1) {
       list[index] = { ...list[index], ...updateData };
       db[collectionName] = list;
@@ -90,13 +93,20 @@ class JsonDB {
     return null;
   }
 
-  static delete(collectionName, id) {
+  static delete(collectionName, idOrPredicate) {
     const db = this.read();
     const list = db[collectionName] || [];
-    const filtered = list.filter(item => item.id !== id);
-    db[collectionName] = filtered;
-    this.write(db);
-    return true;
+    const predicate = typeof idOrPredicate === 'function'
+      ? idOrPredicate
+      : item => item.id === idOrPredicate;
+    const initialLen = list.length;
+    const filtered = list.filter(item => !predicate(item));
+    if (filtered.length < initialLen) {
+      db[collectionName] = filtered;
+      this.write(db);
+      return true;
+    }
+    return false;
   }
 }
 

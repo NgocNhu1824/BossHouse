@@ -52,7 +52,8 @@ router.post('/', (req, res) => {
   }
 
   const nights = calculateNights(checkIn, checkOut);
-  const roomCost = room.pricePerNight * nights;
+  const price = room.pricePerNight || room.price || 150000;
+  const roomCost = price * nights;
 
   let serviceCost = 0;
   const servicesList = selectedServices || [];
