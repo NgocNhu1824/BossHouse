@@ -2,13 +2,33 @@
   "users": [
     {
       "id": "u-admin",
-      "name": "Quản Trị Viên BossHouse",
+      "name": "Nguyễn Hoàng Việt",
       "email": "admin@bosshouse.com",
       "password": "$2a$10$X87qg...demoAdminHash",
       "plainPassword": "admin123",
       "role": "admin",
       "phone": "0988888888",
       "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "u-staff1",
+      "name": "Trần Minh Đức (KTV Spa)",
+      "email": "duc.tran@bosshouse.com",
+      "password": "$2a$10$X87qg...demoStaffHash",
+      "plainPassword": "staff123",
+      "role": "staff",
+      "phone": "0987111222",
+      "createdAt": "2026-01-10T00:00:00.000Z"
+    },
+    {
+      "id": "u-staff2",
+      "name": "Lê Thu Hà (Quản lý Lễ Tân)",
+      "email": "ha.le@bosshouse.com",
+      "password": "$2a$10$X87qg...demoStaffHash",
+      "plainPassword": "staff123",
+      "role": "staff",
+      "phone": "0987333444",
+      "createdAt": "2026-01-12T00:00:00.000Z"
     },
     {
       "id": "u-customer1",
@@ -19,6 +39,26 @@
       "role": "customer",
       "phone": "0912345678",
       "createdAt": "2026-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "u-customer2",
+      "name": "Lê Hoàng Nam",
+      "email": "nam.le@gmail.com",
+      "password": "$2a$10$X87qg...demoUserHash",
+      "plainPassword": "user123",
+      "role": "customer",
+      "phone": "0934567890",
+      "createdAt": "2026-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "u-customer3",
+      "name": "Phạm Thị Quỳnh",
+      "email": "quynh.pham@gmail.com",
+      "password": "$2a$10$X87qg...demoUserHash",
+      "plainPassword": "user123",
+      "role": "customer",
+      "phone": "0978901234",
+      "createdAt": "2026-02-10T00:00:00.000Z"
     }
   ],
   "services": [
@@ -95,6 +135,7 @@
       "category": "cat",
       "description": "Phòng gỗ kính cao cấp tràn ngập ánh sáng, thiết kế cây leo trèo đa tầng, máy lọc không khí HEPA, đệm êm và Camera 24/7.",
       "pricePerNight": 250000,
+      "price": 250000,
       "capacity": "1 - 2 Bé Mèo",
       "size": "2.5m x 1.8m",
       "amenities": ["Camera 24/7 xem trực tiếp", "Điều hòa 2 chiều 25°C", "Tháp trèo nhà gỗ", "Cát vệ sinh hữu cơ đậu phụ", "3 bữa ăn dinh dưỡng/ngày"],
@@ -108,6 +149,7 @@
       "category": "dog",
       "description": "Không gian rộng rãi thoáng mát cho cún tầm trung và lớn, trang bị nệm cao su non chống khuẩn, đồ chơi gặm nhấm và tivi phát nhạc êm dịu.",
       "pricePerNight": 350000,
+      "price": 350000,
       "capacity": "1 - 2 Bé Cún (Dưới 15kg)",
       "size": "3.5m x 2.2m",
       "amenities": ["Camera Full HD live", "Điều hòa ion âm", "Đệm cao su non cao cấp", "Sân chơi cỏ nhân tạo riêng", "Tắm rửa 1 lần miễn phí khi lưu trú >3 ngày"],
@@ -121,6 +163,7 @@
       "category": "vip",
       "description": "Căn hộ siêu sang dành cho các Boss quý tộc! Sân chơi riêng ngoài trời, dịch vụ Chăm sóc viên 1-on-1, massage mỗi ngày.",
       "pricePerNight": 550000,
+      "price": 550000,
       "capacity": "1 - 3 Bé (Mọi kích thước)",
       "size": "5.0m x 3.0m",
       "amenities": ["Chăm sóc viên VIP 1-1", "Camera 4K AI theo dõi", "Thực đơn tươi Gourmet 4 bữa/ngày", "Massage spa 20p/ngày", "Báo cáo hình ảnh/video 2 tiếng/lần"],
@@ -134,6 +177,7 @@
       "category": "standard",
       "description": "Không gian ấm cúng, riêng tư, sạch sẽ tiệt trùng bằng đèn UV mỗi ngày, chi phí hợp lý cho chuyến đi ngắn ngày.",
       "pricePerNight": 150000,
+      "price": 150000,
       "capacity": "1 Bé (Dưới 7kg)",
       "size": "1.5m x 1.2m",
       "amenities": ["Điều hòa mát mẻ", "Khay vệ sinh tự động", "Bát ăn inox y tế", "2 bữa ăn dinh dưỡng/ngày"],
@@ -164,6 +208,28 @@
       "weight": 3.8,
       "notes": "Năng động, thích đi dạo bóng, dị ứng với thức ăn hải sản.",
       "avatar": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=300&q=80"
+    },
+    {
+      "id": "pet-3",
+      "userId": "u-customer2",
+      "name": "Corgi Bơ",
+      "type": "dog",
+      "breed": "Corgi Pembroke",
+      "age": 4,
+      "weight": 11.5,
+      "notes": "Hiếu động, thích được chải lông sấy gòn.",
+      "avatar": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80"
+    },
+    {
+      "id": "pet-4",
+      "userId": "u-customer3",
+      "name": "Bé Bông",
+      "type": "cat",
+      "breed": "Mèo Ba Tư Persian",
+      "age": 3,
+      "weight": 3.5,
+      "notes": "Thích ngủ nệm ấm, ăn hạt mềm.",
+      "avatar": "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=300&q=80"
     }
   ],
   "bookings": [
@@ -209,6 +275,27 @@
       "totalAmount": 1020000,
       "status": "completed",
       "createdAt": "2026-08-05T14:15:00.000Z"
+    },
+    {
+      "id": "bk-1003",
+      "userId": "u-customer2",
+      "userName": "Lê Hoàng Nam",
+      "userPhone": "0934567890",
+      "petId": "pet-3",
+      "petName": "Corgi Bơ",
+      "petType": "dog",
+      "roomId": "room-3",
+      "roomName": "Căn Hộ Penthouse Boss Super VIP",
+      "checkIn": "2026-08-10",
+      "checkOut": "2026-08-14",
+      "nights": 4,
+      "selectedServices": [
+        { "id": "srv-2", "name": "Spa Cắt Tỉa Tạo Kiểu Hàn Quốc", "price": 350000 }
+      ],
+      "specialRequests": "Cho bé tập chạy bộ ngoài sân cỏ riêng.",
+      "totalAmount": 2550000,
+      "status": "checked-in",
+      "createdAt": "2026-08-08T09:00:00.000Z"
     }
   ],
   "reviews": [
@@ -224,7 +311,7 @@
     },
     {
       "id": "rev-2",
-      "userId": "u-user2",
+      "userId": "u-customer2",
       "userName": "Lê Hoàng Nam",
       "petName": "Bé Cún Corgi Bơ",
       "rating": 5,
@@ -234,7 +321,7 @@
     },
     {
       "id": "rev-3",
-      "userId": "u-user3",
+      "userId": "u-customer3",
       "userName": "Phạm Thị Quỳnh",
       "petName": "Bé Mèo Ba Tư Bông",
       "rating": 5,

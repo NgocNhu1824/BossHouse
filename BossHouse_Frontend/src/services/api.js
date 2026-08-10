@@ -196,5 +196,25 @@ export const api = {
       headers: getAuthHeaders()
     });
     return res.json();
+  },
+
+  createUser: async (userData) => {
+    const res = await fetch(`${API_BASE_URL}/admin/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      },
+      body: JSON.stringify(userData)
+    });
+    return res.json();
+  },
+
+  deleteUser: async (id) => {
+    const res = await fetch(`${API_BASE_URL}/admin/users/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return res.json();
   }
 };

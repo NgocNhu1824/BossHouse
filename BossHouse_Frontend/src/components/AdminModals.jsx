@@ -257,3 +257,117 @@ export const ServiceModal = ({ isOpen, onClose, service, onSubmit }) => {
     </div>
   );
 };
+
+// Modal to Add New User or Staff Account
+export const UserModal = ({ isOpen, onClose, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    role: 'staff',
+    password: ''
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        role: 'staff',
+        password: ''
+      });
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-container" style={{ maxWidth: '520px' }}>
+        <div className="modal-header">
+          <h3 style={{ fontSize: '1.25rem', margin: 0 }}>
+            ➕ Thêm Tài Khoản / Nhân Viên Hệ Thống Mới
+          </h3>
+          <button onClick={onClose} className="close-btn"><X size={20} /></button>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Họ Và Tên *</label>
+            <input 
+              type="text" 
+              className="form-input" 
+              placeholder="VD: Trần Minh Đức (KTV Spa)..." 
+              value={formData.name}
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
+              required 
+            />
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label className="form-label">Email Đăng Nhập *</label>
+              <input 
+                type="email" 
+                className="form-input" 
+                placeholder="duc.tran@bosshouse.com" 
+                value={formData.email}
+                onChange={e => setFormData({ ...formData, email: e.target.value })}
+                required 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Số Điện Thoại</label>
+              <input 
+                type="text" 
+                className="form-input" 
+                placeholder="0987111222" 
+                value={formData.phone}
+                onChange={e => setFormData({ ...formData, phone: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="grid-2">
+            <div className="form-group">
+              <label className="form-label">Phân Cấp / Vai Trò *</label>
+              <select 
+                className="form-select"
+                value={formData.role}
+                onChange={e => setFormData({ ...formData, role: e.target.value })}
+              >
+                <option value="staff">👔 Nhân Viên (Staff)</option>
+                <option value="admin">👑 Quản Trị Viên (Admin)</option>
+                <option value="customer">⭐️ Khách Hàng Thân Thiết</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Mật Khẩu *</label>
+              <input 
+                type="password" 
+                className="form-input" 
+                placeholder="Mật khẩu khởi tạo" 
+                value={formData.password}
+                onChange={e => setFormData({ ...formData, password: e.target.value })}
+                required 
+              />
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
+            <button type="button" className="btn btn-secondary" onClick={onClose}>Hủy Bỏ</button>
+            <button type="submit" className="btn btn-primary">
+              Tạo Tài Khoản Mới
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};

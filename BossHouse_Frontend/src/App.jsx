@@ -5,7 +5,7 @@ import { Toast } from './components/Toast';
 import { BookingModal } from './components/BookingModal';
 import { PetModal } from './components/PetModal';
 import { AuthModal } from './components/AuthModal';
-import { RoomModal, ServiceModal } from './components/AdminModals';
+import { RoomModal, ServiceModal, UserModal } from './components/AdminModals';
 import { Chatbox } from './components/Chatbox';
 
 import { HomePage } from './pages/HomePage';
@@ -40,6 +40,7 @@ export default function App() {
   const [selectedRoomForEdit, setSelectedRoomForEdit] = useState(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const [selectedServiceForEdit, setSelectedServiceForEdit] = useState(null);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -325,6 +326,37 @@ export default function App() {
     }
   };
 
+  // Admin User Management Handlers
+  const handleCreateUser = async (userData) => {
+    try {
+      const res = await api.createUser(userData);
+      if (res.success) {
+        showToast(res.message, 'success');
+        setIsUserModalOpen(false);
+        fetchUserData();
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi tạo tài khoản mới', 'error');
+    }
+  };
+
+  const handleDeleteUser = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa tài khoản này khỏi hệ thống?')) return;
+    try {
+      const res = await api.deleteUser(id);
+      if (res.success) {
+        showToast(res.message, 'info');
+        fetchUserData();
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi xóa tài khoản', 'error');
+    }
+  };
+
   return (
     <div className="app-container">
       {/* Toast Alert */}
@@ -406,6 +438,9 @@ export default function App() {
             onOpenAddService={() => { setSelectedServiceForEdit(null); setIsServiceModalOpen(true); }}
             onEditService={(sv) => { setSelectedServiceForEdit(sv); setIsServiceModalOpen(true); }}
             onDeleteService={handleDeleteService}
+            onOpenAddUser={() => setIsUserModalOpen(true)}
+            onDeleteUser={handleDeleteUser}
+            onExitAdmin={() => setActiveTab('home')}
           />
         )}
       </main>
@@ -452,6 +487,12 @@ export default function App() {
         onClose={() => { setIsServiceModalOpen(false); setSelectedServiceForEdit(null); }}
         service={selectedServiceForEdit}
         onSubmit={handleSaveService}
+      />
+
+      <UserModal 
+        isOpen={isUserModalOpen}
+        onClose={() => setIsUserModalOpen(false)}
+        onSubmit={handleCreateUser}
       />
 
       {/* Footer */}

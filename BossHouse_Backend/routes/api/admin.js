@@ -36,7 +36,7 @@ router.get('/stats', (req, res) => {
   });
 });
 
-// GET /api/admin/users - Get all registered users/customers
+// GET /api/admin/users - Get all registered users/staff/customers
 router.get('/users', (req, res) => {
   const users = JsonDB.getCollection('users');
   const safeUsers = users.map(u => ({
@@ -44,10 +44,45 @@ router.get('/users', (req, res) => {
     name: u.name,
     email: u.email,
     phone: u.phone || '0912345678',
-    role: u.role,
-    createdAt: u.createdAt
+    role: u.role || 'customer',
+    createdAt: u.createdAt || new Date().toISOString()
   }));
   res.json({ success: true, count: safeUsers.length, data: safeUsers });
+});
+
+// POST /api/admin/users - Create new User or Staff
+router.post('/users', (req, res) => {
+  const { name, email, phone, role, password } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ success: false, message: 'Tên và Email là bắt buộc!' });
+  }
+
+  const existing = JsonDB.findOne('users', u => u.email.toLowerCase() === email.toLowerCase());
+  if (existing) {
+    return res.status(400).json({ success: false, message: 'Email đã tồn tại trong hệ thống!' });
+  }
+
+  const newUser = {
+    id: `u-${role || 'staff'}-${Date.now().toString().slice(-4)}`,
+    name,
+    email,
+    phone: phone || '0987654321',
+    role: role || 'staff',
+    plainPassword: password || '123456',
+    createdAt: new Date().toISOString()
+  };
+
+  JsonDB.insert('users', newUser);
+  res.status(201).json({ success: true, message: 'Đã thêm tài khoản mới thành công!', data: newUser });
+});
+
+// DELETE /api/admin/users/:id - Delete a User or Staff account
+router.delete('/users/:id', (req, res) => {
+  const deleted = JsonDB.delete('users', req.params.id);
+  if (!deleted) {
+    return res.status(404).json({ success: false, message: 'Không tìm thấy tài khoản để xóa!' });
+  }
+  res.json({ success: true, message: 'Đã xóa tài khoản thành công!' });
 });
 
 module.exports = router;
