@@ -1,0 +1,246 @@
+{
+  "users": [
+    {
+      "id": "u-admin",
+      "name": "Quản Trị Viên BossHouse",
+      "email": "admin@bosshouse.com",
+      "password": "$2a$10$X87qg...demoAdminHash",
+      "plainPassword": "admin123",
+      "role": "admin",
+      "phone": "0988888888",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "u-customer1",
+      "name": "Nguyễn Thanh Thảo",
+      "email": "thao.nguyen@gmail.com",
+      "password": "$2a$10$X87qg...demoUserHash",
+      "plainPassword": "user123",
+      "role": "customer",
+      "phone": "0912345678",
+      "createdAt": "2026-01-15T00:00:00.000Z"
+    }
+  ],
+  "services": [
+    {
+      "id": "srv-1",
+      "name": "Gói Tắm & Grooming Cơ Bản",
+      "category": "spa",
+      "description": "Tắm sấy khử mùi, vắt tuyến mồ hôi, sấy đánh bông lông, tỉa móng, vệ sinh tai và chải lông gỡ rối.",
+      "price": 200000,
+      "unit": "lần",
+      "duration": "60 phút",
+      "petTypes": ["dog", "cat"],
+      "image": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.9,
+      "featured": true
+    },
+    {
+      "id": "srv-2",
+      "name": "Spa Cắt Tỉa Tạo Kiểu Hàn Quốc",
+      "category": "spa",
+      "description": "Combo tắm dưỡng thảo mộc, sấy phồng, cắt tỉa tạo kiểu tóc/lông theo yêu cầu (Teddy Bear, Bichon style, VIP Cat grooming).",
+      "price": 350000,
+      "unit": "lần",
+      "duration": "90 phút",
+      "petTypes": ["dog", "cat"],
+      "image": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
+      "rating": 5.0,
+      "featured": true
+    },
+    {
+      "id": "srv-3",
+      "name": "Dẫn Boss Đi Dạo & Vận Động",
+      "category": "care",
+      "description": "Dẫn cún cưng đi dạo tại công viên riêng của BossHouse, tập bài tập phản xạ và chơi đùa tương tác cùng HLV.",
+      "price": 120000,
+      "unit": "lượt (30p)",
+      "duration": "30 phút",
+      "petTypes": ["dog"],
+      "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.8,
+      "featured": false
+    },
+    {
+      "id": "srv-4",
+      "name": "Khám Sức Khỏe Tổng Quát & Tiêm Chủng",
+      "category": "health",
+      "description": "Bác sĩ thú y kiểm tra tai, mắt, răng miệng, nhịp tim, cân nặng và tư vấn dinh dưỡng hoặc tiêm vắc-xin định kỳ.",
+      "price": 250000,
+      "unit": "lần",
+      "duration": "45 phút",
+      "petTypes": ["dog", "cat", "other"],
+      "image": "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.9,
+      "featured": true
+    },
+    {
+      "id": "srv-5",
+      "name": "Bữa Ăn Hoàng Gia Gourmet Food",
+      "category": "nutrition",
+      "description": "Thực đơn dinh dưỡng tươi nấu trong ngày: Thức ăn tươi (Pate cá hồi, ức gà hấp rau củ, bò xay nhập khẩu).",
+      "price": 80000,
+      "unit": "bữa",
+      "duration": "Hàng ngày",
+      "petTypes": ["dog", "cat"],
+      "image": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.9,
+      "featured": false
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room-1",
+      "name": "Phòng VIP Cat Suite (Hoàng Gia Mèo)",
+      "category": "cat",
+      "description": "Phòng gỗ kính cao cấp tràn ngập ánh sáng, thiết kế cây leo trèo đa tầng, máy lọc không khí HEPA, đệm êm và Camera 24/7.",
+      "pricePerNight": 250000,
+      "capacity": "1 - 2 Bé Mèo",
+      "size": "2.5m x 1.8m",
+      "amenities": ["Camera 24/7 xem trực tiếp", "Điều hòa 2 chiều 25°C", "Tháp trèo nhà gỗ", "Cát vệ sinh hữu cơ đậu phụ", "3 bữa ăn dinh dưỡng/ngày"],
+      "image": "https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?auto=format&fit=crop&w=600&q=80",
+      "status": "available",
+      "rating": 5.0
+    },
+    {
+      "id": "room-2",
+      "name": "Biệt Thự Dog Villa Deluxe",
+      "category": "dog",
+      "description": "Không gian rộng rãi thoáng mát cho cún tầm trung và lớn, trang bị nệm cao su non chống khuẩn, đồ chơi gặm nhấm và tivi phát nhạc êm dịu.",
+      "pricePerNight": 350000,
+      "capacity": "1 - 2 Bé Cún (Dưới 15kg)",
+      "size": "3.5m x 2.2m",
+      "amenities": ["Camera Full HD live", "Điều hòa ion âm", "Đệm cao su non cao cấp", "Sân chơi cỏ nhân tạo riêng", "Tắm rửa 1 lần miễn phí khi lưu trú >3 ngày"],
+      "image": "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80",
+      "status": "available",
+      "rating": 4.9
+    },
+    {
+      "id": "room-3",
+      "name": "Căn Hộ Penthouse Boss Super VIP",
+      "category": "vip",
+      "description": "Căn hộ siêu sang dành cho các Boss quý tộc! Sân chơi riêng ngoài trời, dịch vụ Chăm sóc viên 1-on-1, massage mỗi ngày.",
+      "pricePerNight": 550000,
+      "capacity": "1 - 3 Bé (Mọi kích thước)",
+      "size": "5.0m x 3.0m",
+      "amenities": ["Chăm sóc viên VIP 1-1", "Camera 4K AI theo dõi", "Thực đơn tươi Gourmet 4 bữa/ngày", "Massage spa 20p/ngày", "Báo cáo hình ảnh/video 2 tiếng/lần"],
+      "image": "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=600&q=80",
+      "status": "available",
+      "rating": 5.0
+    },
+    {
+      "id": "room-4",
+      "name": "Phòng Tiêu Chuẩn Cozy Box",
+      "category": "standard",
+      "description": "Không gian ấm cúng, riêng tư, sạch sẽ tiệt trùng bằng đèn UV mỗi ngày, chi phí hợp lý cho chuyến đi ngắn ngày.",
+      "pricePerNight": 150000,
+      "capacity": "1 Bé (Dưới 7kg)",
+      "size": "1.5m x 1.2m",
+      "amenities": ["Điều hòa mát mẻ", "Khay vệ sinh tự động", "Bát ăn inox y tế", "2 bữa ăn dinh dưỡng/ngày"],
+      "image": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80",
+      "status": "available",
+      "rating": 4.7
+    }
+  ],
+  "pets": [
+    {
+      "id": "pet-1",
+      "userId": "u-customer1",
+      "name": "Miu Miu",
+      "type": "cat",
+      "breed": "Mèo Anh Lông Ngắn (BSH)",
+      "age": 2,
+      "weight": 4.2,
+      "notes": "Rất thích ăn pate cá hồi, hơi nhát người lạ lúc đầu.",
+      "avatar": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80"
+    },
+    {
+      "id": "pet-2",
+      "userId": "u-customer1",
+      "name": "LuLu",
+      "type": "dog",
+      "breed": "Poodle Toy Gold",
+      "age": 1.5,
+      "weight": 3.8,
+      "notes": "Năng động, thích đi dạo bóng, dị ứng với thức ăn hải sản.",
+      "avatar": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=300&q=80"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "bk-1001",
+      "userId": "u-customer1",
+      "userName": "Nguyễn Thanh Thảo",
+      "userPhone": "0912345678",
+      "petId": "pet-1",
+      "petName": "Miu Miu",
+      "petType": "cat",
+      "roomId": "room-1",
+      "roomName": "Phòng VIP Cat Suite (Hoàng Gia Mèo)",
+      "checkIn": "2026-08-15",
+      "checkOut": "2026-08-18",
+      "nights": 3,
+      "selectedServices": [
+        { "id": "srv-2", "name": "Spa Cắt Tỉa Tạo Kiểu Hàn Quốc", "price": 350000 }
+      ],
+      "specialRequests": "Nhờ khách sạn chải lông buổi tối và quay clip gửi qua Zalo mỗi ngày.",
+      "totalAmount": 1100000,
+      "status": "confirmed",
+      "createdAt": "2026-08-01T10:30:00.000Z"
+    },
+    {
+      "id": "bk-1002",
+      "userId": "u-customer1",
+      "userName": "Nguyễn Thanh Thảo",
+      "userPhone": "0912345678",
+      "petId": "pet-2",
+      "petName": "LuLu",
+      "petType": "dog",
+      "roomId": "room-2",
+      "roomName": "Biệt Thự Dog Villa Deluxe",
+      "checkIn": "2026-08-08",
+      "checkOut": "2026-08-10",
+      "nights": 2,
+      "selectedServices": [
+        { "id": "srv-1", "name": "Gói Tắm & Grooming Cơ Bản", "price": 200000 },
+        { "id": "srv-3", "name": "Dẫn Boss Đi Dạo & Vận Động", "price": 120000 }
+      ],
+      "specialRequests": "Cho LuLu ăn riêng hạt dinh dưỡng gia đình gửi theo.",
+      "totalAmount": 1020000,
+      "status": "completed",
+      "createdAt": "2026-08-05T14:15:00.000Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "userId": "u-customer1",
+      "userName": "Nguyễn Thanh Thảo",
+      "petName": "Miu Miu & LuLu",
+      "rating": 5,
+      "comment": "Dịch vụ cực kỳ tận tâm! Bé Miu Miu ở phòng VIP Cat Suite về nhà rất vui vẻ, không bị căng thẳng chút nào. Camera theo dõi sắc nét, các bạn chăm sóc viên thân thiện vô cùng. Chắc chắn sẽ quay lại BossHouse!",
+      "date": "2026-08-06",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      "id": "rev-2",
+      "userId": "u-user2",
+      "userName": "Lê Hoàng Nam",
+      "petName": "Bé Cún Corgi Bơ",
+      "rating": 5,
+      "comment": "Khách sạn sạch sẽ thơm tho, phòng rộng rãi mát mẻ. Combo cắt tỉa lông tạo kiểu rất đẹp, cu Bơ nhà mình biến hình thành idol luôn!",
+      "date": "2026-08-02",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      "id": "rev-3",
+      "userId": "u-user3",
+      "userName": "Phạm Thị Quỳnh",
+      "petName": "Bé Mèo Ba Tư Bông",
+      "rating": 5,
+      "comment": "Rất yên tâm khi gửi Boss ở đây khi đi công tác xa. Được xem camera 24/24 và nhận tin nhắn cập nhật bữa ăn hàng ngày. 10/10 điểm!",
+      "date": "2026-07-28",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+    }
+  ]
+}
