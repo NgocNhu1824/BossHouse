@@ -6,6 +6,7 @@ import { BookingModal } from './components/BookingModal';
 import { PetModal } from './components/PetModal';
 import { AuthModal } from './components/AuthModal';
 import { RoomModal, ServiceModal, UserModal } from './components/AdminModals';
+import { ProfileModal } from './components/ProfileModal';
 import { Chatbox } from './components/Chatbox';
 
 import { HomePage } from './pages/HomePage';
@@ -34,6 +35,7 @@ export default function App() {
   const [selectedRoomForBooking, setSelectedRoomForBooking] = useState(null);
   const [isPetModalOpen, setIsPetModalOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   // Admin CRUD Modals
   const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
@@ -155,13 +157,51 @@ export default function App() {
     setActiveTab('home');
   };
 
+  const requireAuth = (actionCallback) => {
+    if (!user) {
+      showToast('🔒 Vui lòng đăng nhập để thực hiện tính năng này!', 'warning');
+      setIsAuthModalOpen(true);
+      return false;
+    }
+    if (actionCallback) actionCallback();
+    return true;
+  };
+
+  const handleSelectTab = (tab) => {
+    if ((tab === 'pets' || tab === 'bookings') && !user) {
+      showToast('🔒 Vui lòng đăng nhập để sử dụng tính năng cá nhân!', 'warning');
+      setIsAuthModalOpen(true);
+      return;
+    }
+    setActiveTab(tab);
+  };
+
+  const handleUpdateProfile = async (profileData) => {
+    try {
+      const res = await api.updateProfile(profileData);
+      if (res.success) {
+        showToast(res.message, 'success');
+        setUser(res.user);
+        localStorage.setItem('bosshouse_user', JSON.stringify(res.user));
+        setIsProfileModalOpen(false);
+        fetchUserData();
+      } else {
+        showToast(res.message || 'Cập nhật thất bại', 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi cập nhật hồ sơ cá nhân', 'error');
+    }
+  };
+
   // Booking Handler
   const handleBookRoom = (room) => {
+    if (!requireAuth()) return;
     setSelectedRoomForBooking(room);
     setIsBookingModalOpen(true);
   };
 
   const handleSubmitBooking = async (bookingPayload) => {
+    if (!requireAuth()) return;
     try {
       const res = await api.createBooking(bookingPayload);
       if (res.success) {
@@ -177,6 +217,7 @@ export default function App() {
   };
 
   const handleCancelBooking = async (id) => {
+    if (!requireAuth()) return;
     if (!window.confirm('Bạn có chắc chắn muốn hủy đơn đặt phòng này?')) return;
     try {
       const res = await api.cancelBooking(id);
@@ -193,6 +234,7 @@ export default function App() {
 
   // Pet Handler
   const handleAddPet = async (petData) => {
+    if (!requireAuth()) return;
     try {
       const res = await api.addPet(petData);
       if (res.success) {
@@ -365,11 +407,12 @@ export default function App() {
       {/* Navigation Bar */}
       <Navbar 
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleSelectTab}
         user={user}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
         onOpenBooking={() => handleBookRoom(rooms[0])}
+        onOpenProfile={() => setIsProfileModalOpen(true)}
       />
 
       {/* Main Tab Views */}
@@ -380,7 +423,7 @@ export default function App() {
             services={services} 
             reviews={reviews} 
             onBookRoom={handleBookRoom} 
-            onSelectTab={setActiveTab} 
+            onSelectTab={handleSelectTab} 
           />
         )}
 
@@ -401,7 +444,7 @@ export default function App() {
         {activeTab === 'pets' && (
           <MyPetsPage 
             pets={pets} 
-            onOpenAddPet={() => setIsPetModalOpen(true)} 
+            onOpenAddPet={() => { if (!requireAuth()) return; setIsPetModalOpen(true); }} 
             onDeletePet={handleDeletePet} 
             user={user} 
           />
@@ -472,6 +515,13 @@ export default function App() {
         onClose={() => setIsAuthModalOpen(false)}
         onLogin={handleLogin}
         onRegister={handleRegister}
+      />
+
+      <ProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        user={user}
+        onUpdateProfile={handleUpdateProfile}
       />
 
       {/* Admin Modals */}

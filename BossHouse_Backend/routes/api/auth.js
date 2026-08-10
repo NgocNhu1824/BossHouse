@@ -79,4 +79,34 @@ router.get('/me', (req, res) => {
   res.json({ success: true, user: userProfile });
 });
 
+// PUT /api/auth/profile - Update Profile
+router.put('/profile', (req, res) => {
+  const { userId, name, phone, password } = req.body;
+  if (!userId) {
+    return res.status(400).json({ success: false, message: 'Thiếu ID người dùng!' });
+  }
+
+  const user = JsonDB.findOne('users', u => u.id === userId);
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'Không tìm thấy tài khoản!' });
+  }
+
+  const updateFields = {};
+  if (name) updateFields.name = name;
+  if (phone !== undefined) updateFields.phone = phone;
+  if (password) {
+    updateFields.password = password;
+    updateFields.plainPassword = password;
+  }
+
+  const updatedUser = JsonDB.update('users', userId, updateFields);
+  const { password: _, plainPassword: __, ...userProfile } = updatedUser;
+
+  res.json({
+    success: true,
+    message: 'Cập nhật thông tin cá nhân thành công!',
+    user: userProfile
+  });
+});
+
 module.exports = router;

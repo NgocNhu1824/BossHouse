@@ -32,6 +32,18 @@ export const api = {
     return res.json();
   },
 
+  updateProfile: async (profileData) => {
+    const res = await fetch(`${API_BASE_URL}/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      },
+      body: JSON.stringify(profileData)
+    });
+    return res.json();
+  },
+
   // Rooms CRUD
   getRooms: async (category = 'all') => {
     const res = await fetch(`${API_BASE_URL}/rooms?category=${category}`);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Home, Hotel, Scissors, Dog, Calendar, Star, ShieldCheck, LogIn, LogOut, User, PlusCircle, Menu, X } from './Icons';
 
-export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, onOpenBooking }) => {
+export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, onOpenBooking, onOpenProfile }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleNavClick = (tab) => {
@@ -10,6 +10,7 @@ export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, on
   };
 
   const isAdminView = activeTab === 'admin';
+  const isGuest = !user;
 
   return (
     <header style={{
@@ -95,18 +96,18 @@ export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, on
 
           <button 
             className={`btn ${activeTab === 'pets' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ padding: '8px 14px', borderRadius: 'var(--radius-full)' }}
+            style={{ padding: '8px 14px', borderRadius: 'var(--radius-full)', opacity: isGuest ? 0.8 : 1 }}
             onClick={() => handleNavClick('pets')}
           >
-            <Dog size={17} /> Hồ Sơ Boss
+            <Dog size={17} /> {isGuest ? '🔒 Boss Cưng' : 'Hồ Sơ Boss'}
           </button>
 
           <button 
             className={`btn ${activeTab === 'bookings' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ padding: '8px 14px', borderRadius: 'var(--radius-full)' }}
+            style={{ padding: '8px 14px', borderRadius: 'var(--radius-full)', opacity: isGuest ? 0.8 : 1 }}
             onClick={() => handleNavClick('bookings')}
           >
-            <Calendar size={17} /> Đặt Chỗ Của Tôi
+            <Calendar size={17} /> {isGuest ? '🔒 Đặt Chỗ' : 'Đặt Chỗ Của Tôi'}
           </button>
 
           <button 
@@ -140,31 +141,45 @@ export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, on
 
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 12px',
-                background: 'rgba(30, 41, 59, 0.8)',
-                borderRadius: 'var(--radius-full)',
-                border: '1px solid var(--color-border)'
-              }}>
+              <div 
+                onClick={onOpenProfile}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 12px',
+                  background: 'rgba(30, 41, 59, 0.8)',
+                  borderRadius: 'var(--radius-full)',
+                  border: '1px solid var(--color-border)',
+                  cursor: 'pointer',
+                  transition: 'var(--transition-fast)'
+                }}
+                title="Xem & Cập nhật Hồ sơ cá nhân"
+              >
                 <User size={15} color="var(--color-primary)" />
                 <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{user.name}</span>
+                <span className="badge badge-warning" style={{ fontSize: '0.68rem', padding: '1px 5px' }}>
+                  {user.role === 'admin' ? '👑 Admin' : '⭐️ Customer'}
+                </span>
               </div>
               <button 
                 onClick={onLogout}
                 className="btn btn-secondary btn-sm"
-                title="Đăng xuất"
+                title="Đăng xuất khỏi hệ thống"
                 style={{ padding: '8px' }}
               >
                 <LogOut size={16} color="#ef4444" />
               </button>
             </div>
           ) : (
-            <button className="btn btn-secondary btn-sm" onClick={onOpenAuth}>
-              <LogIn size={16} /> Đăng Nhập
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span className="badge badge-info" style={{ fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                👤 Guest
+              </span>
+              <button className="btn btn-secondary btn-sm" onClick={onOpenAuth}>
+                <LogIn size={16} /> Đăng Nhập / Đăng Ký
+              </button>
+            </div>
           )}
 
           {/* Mobile Hamburger Menu Button */}
@@ -229,7 +244,7 @@ export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, on
             style={{ justifyContent: 'flex-start', padding: '12px 16px' }}
             onClick={() => handleNavClick('pets')}
           >
-            <Dog size={18} /> Hồ Sơ Boss
+            <Dog size={18} /> {isGuest ? '🔒 Hồ Sơ Boss (Cần đăng nhập)' : 'Hồ Sơ Boss'}
           </button>
 
           <button 
@@ -237,7 +252,7 @@ export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, on
             style={{ justifyContent: 'flex-start', padding: '12px 16px' }}
             onClick={() => handleNavClick('bookings')}
           >
-            <Calendar size={18} /> Đặt Chỗ Của Tôi
+            <Calendar size={18} /> {isGuest ? '🔒 Đặt Chỗ Của Tôi (Cần đăng nhập)' : 'Đặt Chỗ Của Tôi'}
           </button>
 
           <button 
@@ -247,6 +262,16 @@ export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, on
           >
             <Star size={18} /> Đánh Giá
           </button>
+
+          {user && (
+            <button 
+              className="btn btn-secondary"
+              style={{ justifyContent: 'flex-start', padding: '12px 16px', color: 'var(--color-primary)' }}
+              onClick={() => { onOpenProfile(); setIsMobileMenuOpen(false); }}
+            >
+              <User size={18} /> Xem & Edit Profile Cá Nhân
+            </button>
+          )}
 
           {user && user.role === 'admin' && (
             <button 
