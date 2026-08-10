@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Shield, Sparkles, Award, Video, Heart } from 'lucide-react';
+import { Calendar, Shield, Sparkles, Award, Video, Heart } from './Icons';
 
 export const Hero = ({ onOpenBooking, onExploreRooms }) => {
   return (

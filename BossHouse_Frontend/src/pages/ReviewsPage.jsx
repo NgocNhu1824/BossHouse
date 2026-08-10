@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, MessageSquarePlus, Heart } from 'lucide-react';
+import { Star, MessageSquarePlus, Heart } from '../components/Icons';
 
 export const ReviewsPage = ({ reviews = [], onSubmitReview, user }) => {
   const [rating, setRating] = useState(5);

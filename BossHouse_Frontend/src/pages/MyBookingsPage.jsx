@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock, MapPin, AlertCircle, XCircle, CheckCircle, Video } from 'lucide-react';
+import { Calendar, Clock, MapPin, AlertCircle, XCircle, CheckCircle, Video } from '../components/Icons';
 
 export const MyBookingsPage = ({ bookings = [], onCancelBooking, onOpenBooking }) => {
   const statusBadges = {

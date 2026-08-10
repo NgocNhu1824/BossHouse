@@ -2,7 +2,7 @@ import React from 'react';
 import { Hero } from '../components/Hero';
 import { RoomCard } from '../components/RoomCard';
 import { ServiceCard } from '../components/ServiceCard';
-import { ShieldCheck, Video, Heart, Clock, Award, Star, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Video, Heart, Clock, Award, Star, ArrowRight } from '../components/Icons';
 
 export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, onSelectTab }) => {
   return (

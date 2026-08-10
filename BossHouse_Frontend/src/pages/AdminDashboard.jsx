@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { DollarSign, Calendar, Users, Hotel, ShieldCheck, CheckCircle, Clock, Video, XCircle } from 'lucide-react';
+import { DollarSign, Calendar, Users, Hotel, ShieldCheck, CheckCircle, Clock, Video, XCircle } from '../components/Icons';
 
 export const AdminDashboard = ({ bookings = [], onUpdateStatus, onRefreshData }) => {
   const [stats, setStats] = useState(null);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Heart, Shield, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin, Heart, Shield, Clock } from './Icons';
 
 export const Footer = () => {
   return (

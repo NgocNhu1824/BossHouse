@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ServiceCard } from '../components/ServiceCard';
-import { Scissors, Sparkles } from 'lucide-react';
+import { Scissors, Sparkles } from '../components/Icons';
 
 export const ServicesPage = ({ services = [], onBookService }) => {
   const [category, setCategory] = useState('all');

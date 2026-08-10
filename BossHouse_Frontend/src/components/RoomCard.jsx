@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Star, Video, ShieldCheck, Heart } from 'lucide-react';
+import { Check, Star, Video, ShieldCheck, Heart } from './Icons';
 
 export const RoomCard = ({ room, onBook }) => {
   const categoryLabels = {

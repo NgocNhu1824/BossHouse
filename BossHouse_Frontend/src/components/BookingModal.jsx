@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Dog, Hotel, Scissors, Check, AlertCircle } from 'lucide-react';
+import { X, Calendar, Dog, Hotel, Scissors, Check, AlertCircle } from './Icons';
 
 export const BookingModal = ({ isOpen, onClose, rooms = [], services = [], pets = [], user, preselectedRoom, onSubmitBooking }) => {
   const [selectedPetId, setSelectedPetId] = useState('');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Dog, Cat, Sparkles } from 'lucide-react';
+import { X, Dog, Cat, Sparkles } from './Icons';
 
 export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
   const [name, setName] = useState('');

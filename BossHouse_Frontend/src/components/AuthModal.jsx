@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, LogIn, UserPlus, ShieldCheck, User } from 'lucide-react';
+import { X, LogIn, UserPlus, ShieldCheck, User } from './Icons';
 
 export const AuthModal = ({ isOpen, onClose, onLogin, onRegister }) => {
   const [isRegistering, setIsRegistering] = useState(false);

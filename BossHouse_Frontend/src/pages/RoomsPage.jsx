@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RoomCard } from '../components/RoomCard';
-import { Hotel, Filter } from 'lucide-react';
+import { Hotel, Filter } from '../components/Icons';
 
 export const RoomsPage = ({ rooms = [], onBookRoom }) => {
   const [filter, setFilter] = useState('all');

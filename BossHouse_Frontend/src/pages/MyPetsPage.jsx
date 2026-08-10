@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dog, PlusCircle, Trash2, Heart, Scale, Calendar, AlertCircle } from 'lucide-react';
+import { Dog, PlusCircle, Trash2, Heart, Scale, Calendar, AlertCircle } from '../components/Icons';
 
 export const MyPetsPage = ({ pets = [], onOpenAddPet, onDeletePet, user }) => {
   return (

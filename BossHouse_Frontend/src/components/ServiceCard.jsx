@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Star, Sparkles, Scissors, HeartPulse } from 'lucide-react';
+import { Clock, Star, Sparkles, Scissors, HeartPulse } from './Icons';
 
 export const ServiceCard = ({ service, onBook }) => {
   return (

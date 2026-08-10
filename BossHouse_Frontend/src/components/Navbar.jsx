@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Hotel, Scissors, Dog, Calendar, Star, ShieldCheck, LogIn, LogOut, User, PlusCircle } from 'lucide-react';
+import { Home, Hotel, Scissors, Dog, Calendar, Star, ShieldCheck, LogIn, LogOut, User, PlusCircle } from './Icons';
 
 export const Navbar = ({ activeTab, setActiveTab, user, onOpenAuth, onLogout, onOpenBooking }) => {
   return (

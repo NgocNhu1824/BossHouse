@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Info, X } from './Icons';
 
 export const Toast = ({ toast, onClose }) => {
   if (!toast) return null;
