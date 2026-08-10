@@ -15,9 +15,9 @@ export const MyBookingsPage = ({ bookings = [], onCancelBooking, onOpenBooking }
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
           <div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '6px' }}>Lịch Sử & Trạng Thái Đặt Chỗ 📅</h1>
+            <h1 style={{ fontSize: '2rem', marginBottom: '6px' }}>Lịch Sử Đặt Phòng & Dịch Vụ 📅</h1>
             <p style={{ color: 'var(--color-text-muted)' }}>
-              Theo dõi tình trạng lưu trú, dịch vụ Spa và chi tiết đơn hàng
+              Theo dõi tình trạng lưu trú, dịch vụ đi kèm và chi tiết từng đơn
             </p>
           </div>
 

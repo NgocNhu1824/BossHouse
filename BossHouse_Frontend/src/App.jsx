@@ -265,6 +265,12 @@ export default function App() {
 
   // Review Handler
   const handleSubmitReview = async (reviewData) => {
+    if (!user) {
+      showToast('Vui lòng đăng nhập để gửi đánh giá!', 'warning');
+      setIsAuthModalOpen(true);
+      return;
+    }
+
     try {
       const res = await api.createReview(reviewData);
       if (res.success) {
@@ -463,6 +469,7 @@ export default function App() {
             reviews={reviews} 
             onSubmitReview={handleSubmitReview} 
             user={user} 
+            onOpenAuth={() => setIsAuthModalOpen(true)}
           />
         )}
 

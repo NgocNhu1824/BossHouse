@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import { Star, MessageSquarePlus, Heart } from '../components/Icons';
+import { Star, MessageSquarePlus, Heart, LogIn, ShieldCheck } from '../components/Icons';
 
-export const ReviewsPage = ({ reviews = [], onSubmitReview, user }) => {
+export const ReviewsPage = ({ reviews = [], onSubmitReview, user, onOpenAuth }) => {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [petName, setPetName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  const canWriteReview = Boolean(user);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!canWriteReview) {
+      onOpenAuth?.();
+      return;
+    }
+
     setIsSubmitting(true);
 
     await onSubmitReview({
-      userId: user ? user.id : 'u-customer1',
-      userName: user ? user.name : 'Khách Hàng',
       petName: petName || 'Boss cưng',
       rating,
       comment
@@ -37,15 +42,40 @@ export const ReviewsPage = ({ reviews = [], onSubmitReview, user }) => {
             </p>
           </div>
 
-          <button className="btn btn-primary btn-lg" onClick={() => setShowForm(!showForm)}>
-            <MessageSquarePlus size={20} /> Viết Đánh Giá Mới
-          </button>
+          {canWriteReview ? (
+            <button className="btn btn-primary btn-lg" onClick={() => setShowForm(!showForm)}>
+              <MessageSquarePlus size={20} /> {showForm ? 'Ẩn Form' : 'Viết Đánh Giá Mới'}
+            </button>
+          ) : (
+            <button className="btn btn-secondary btn-lg" onClick={() => onOpenAuth?.()}>
+              <LogIn size={20} /> Đăng nhập để viết đánh giá
+            </button>
+          )}
         </div>
 
+        {!canWriteReview && (
+          <div className="card-glass" style={{ padding: '20px 22px', marginBottom: '32px', border: '1px solid rgba(59, 130, 246, 0.25)', background: 'rgba(15, 23, 42, 0.65)' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+              <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa', flexShrink: 0 }}>
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '4px' }}>Đánh giá chỉ dành cho khách đã đăng nhập</div>
+                <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>
+                  Điều này giúp BossHouse xác thực phản hồi, gắn với hồ sơ đặt phòng và ngăn đánh giá ẩn danh không đúng nghiệp vụ.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Review Submit Form */}
-        {showForm && (
+        {showForm && canWriteReview && (
           <div className="card-glass" style={{ padding: '24px', marginBottom: '40px', border: '1px solid var(--color-primary)' }}>
             <h3 style={{ fontSize: '1.2rem', marginBottom: '16px' }}>Chia Sẻ Trải Nghiệm Của Bạn Với BossHouse</h3>
+            <div style={{ marginBottom: '16px', padding: '12px 14px', borderRadius: '14px', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.18)', color: 'var(--color-text-muted)' }}>
+              Đang viết dưới tài khoản: <strong style={{ color: 'white' }}>{user.name}</strong>
+            </div>
             
             <form onSubmit={handleSubmit}>
               <div className="grid-2">
