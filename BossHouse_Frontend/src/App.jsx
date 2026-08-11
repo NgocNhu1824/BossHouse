@@ -695,8 +695,8 @@ function ScrollToTopButton() {
       onClick={scrollToTop}
       style={{
         position: 'fixed',
-        bottom: '28px',
-        right: '28px',
+        bottom: '92px',
+        right: '29px',
         width: '46px',
         height: '46px',
         borderRadius: '50%',
