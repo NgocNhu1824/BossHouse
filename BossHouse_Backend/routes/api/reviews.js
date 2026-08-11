@@ -57,4 +57,19 @@ router.post('/', (req, res) => {
   res.status(201).json({ success: true, message: 'Cảm ơn bạn đã gửi đánh giá cho BossHouse!', data: newReview });
 });
 
+// DELETE /api/reviews/:id - Admin Delete review
+router.delete('/:id', (req, res) => {
+  const user = getAuthenticatedUser(req);
+  if (!user || user.role !== 'admin') {
+    return res.status(403).json({ success: false, message: 'Quyền hạn quản trị viên mới được phép xóa đánh giá!' });
+  }
+
+  const deleted = JsonDB.deleteById('reviews', req.params.id);
+  if (deleted) {
+    res.json({ success: true, message: 'Đã xóa đánh giá thành công!' });
+  } else {
+    res.status(404).json({ success: false, message: 'Không tìm thấy đánh giá cần xóa!' });
+  }
+});
+
 module.exports = router;

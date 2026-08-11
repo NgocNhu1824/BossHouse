@@ -127,6 +127,7 @@ button {
   font-weight: 600;
   border-radius: var(--radius-md);
   transition: var(--transition-fast);
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -181,6 +182,8 @@ button {
   border-radius: var(--radius-full);
   font-size: 0.8rem;
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .badge-warning {
@@ -362,19 +365,22 @@ button {
 /* Responsive Grid Helpers */
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 420px));
+  justify-content: center;
   gap: 24px;
 }
 
 .grid-3 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 380px));
+  justify-content: center;
   gap: 28px;
 }
 
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 300px));
+  justify-content: center;
   gap: 20px;
 }
 
@@ -395,6 +401,10 @@ button {
   .desktop-only-btn {
     display: none !important;
   }
+
+  .grid-3, .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -408,6 +418,10 @@ button {
   
   .grid-2, .grid-3, .grid-4 { 
     grid-template-columns: 1fr; 
+  }
+
+  .detail-modal-grid {
+    grid-template-columns: 1fr !important;
   }
 
   .modal-container {

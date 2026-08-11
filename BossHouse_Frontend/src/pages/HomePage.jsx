@@ -4,13 +4,14 @@ import { RoomCard } from '../components/RoomCard';
 import { ServiceCard } from '../components/ServiceCard';
 import { ShieldCheck, Video, Heart, Clock, Award, Star, ArrowRight } from '../components/Icons';
 
-export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, onSelectTab }) => {
+export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, onSelectTab, user, onEditRoom, onEditService, onViewDetail }) => {
   return (
     <div>
       {/* Hero Section */}
       <Hero 
         onOpenBooking={() => onBookRoom(rooms[0])} 
         onExploreRooms={() => onSelectTab('rooms')} 
+        user={user}
       />
 
       {/* Why Choose BossHouse Section */}
@@ -27,18 +28,18 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
                 width: '56px',
                 height: '56px',
                 borderRadius: '16px',
-                background: 'rgba(245, 158, 11, 0.15)',
-                color: 'var(--color-primary)',
+                background: 'rgba(236, 72, 153, 0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 16px auto'
+                margin: '0 auto 16px auto',
+                color: 'var(--color-primary)'
               }}>
                 <Video size={28} />
               </div>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>Camera Live HD 24/7</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
-                Theo dõi từng khoảnh khắc vui chơi và nghỉ ngơi của Boss mọi lúc mọi nơi trực tiếp qua điện thoại.
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Camera Live HD 24/7</h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)' }}>
+                Theo dõi trực tiếp mọi khoảnh khắc hoạt động và giấc ngủ của Boss qua App di động bất cứ lúc nào.
               </p>
             </div>
 
@@ -47,18 +48,18 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
                 width: '56px',
                 height: '56px',
                 borderRadius: '16px',
-                background: 'rgba(236, 72, 153, 0.15)',
-                color: 'var(--color-secondary)',
+                background: 'rgba(245, 158, 11, 0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 16px auto'
+                margin: '0 auto 16px auto',
+                color: '#f59e0b'
               }}>
-                <Heart size={28} />
+                <ShieldCheck size={28} />
               </div>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>Chăm Sóc Viên VIP 1-1</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
-                Đội ngũ chăm sóc viên chuyên nghiệp, chứng chỉ thú y, thương yêu Boss và gửi báo cáo mỗi 2-4 tiếng.
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Điều Hòa & Khử Khuẩn HEPA</h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)' }}>
+                Nhiệt độ phòng luôn giữ ở 24-26°C. Lọc không khí công nghệ Nano Bạc khử mùi 99.9% vi khuẩn.
               </p>
             </div>
 
@@ -68,17 +69,17 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
                 height: '56px',
                 borderRadius: '16px',
                 background: 'rgba(16, 185, 129, 0.15)',
-                color: '#34d399',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 16px auto'
+                margin: '0 auto 16px auto',
+                color: '#10b981'
               }}>
-                <ShieldCheck size={28} />
+                <Award size={28} />
               </div>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>An Toàn & Tiệt Trùng UV</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
-                Môi trường phòng ngủ khử trùng bằng đèn UV hàng ngày, lọc không khí HEPA diệt 99.9% vi khuẩn.
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Bác Sĩ Thú Y Túc Trực</h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)' }}>
+                Đội ngũ kỹ thuật viên và bác sĩ thú y giàu kinh nghiệm kiểm tra sức khỏe và chế độ dinh dưỡng hàng ngày.
               </p>
             </div>
           </div>
@@ -100,7 +101,7 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
 
           <div className="grid-3">
             {rooms.slice(0, 3).map(room => (
-              <RoomCard key={room.id} room={room} onBook={onBookRoom} />
+              <RoomCard key={room.id} room={room} onBook={onBookRoom} user={user} onEdit={onEditRoom} onViewDetail={(rm) => onViewDetail && onViewDetail(rm, 'room')} />
             ))}
           </div>
         </div>
@@ -121,7 +122,7 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
 
           <div className="grid-3">
             {services.slice(0, 3).map(srv => (
-              <ServiceCard key={srv.id} service={srv} onBook={() => onBookRoom(rooms[0])} />
+              <ServiceCard key={srv.id} service={srv} onBook={() => onBookRoom(rooms[0])} user={user} onEdit={onEditService} onViewDetail={(sv) => onViewDetail && onViewDetail(sv, 'service')} />
             ))}
           </div>
         </div>
@@ -148,7 +149,7 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
                   <img src={rev.avatar} alt={rev.userName} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
                   <div>
                     <div style={{ fontSize: '0.92rem', fontWeight: 600 }}>{rev.userName}</div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--color-primary)' }}>Phụ huynh {rev.petName}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--color-primary)' }}>Khách hàng (Chủ bé {rev.petName})</div>
                   </div>
                 </div>
               </div>

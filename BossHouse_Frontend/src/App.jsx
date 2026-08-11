@@ -7,6 +7,7 @@ import { PetModal } from './components/PetModal';
 import { AuthModal } from './components/AuthModal';
 import { RoomModal, ServiceModal, UserModal } from './components/AdminModals';
 import { ProfileModal } from './components/ProfileModal';
+import { DetailModal } from './components/DetailModal';
 import { Chatbox } from './components/Chatbox';
 
 import { HomePage } from './pages/HomePage';
@@ -37,6 +38,11 @@ export default function App() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
+  // Detail Modal (Full uncropped photo view)
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [detailItem, setDetailItem] = useState(null);
+  const [detailType, setDetailType] = useState('room');
+
   // Admin CRUD Modals
   const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
   const [selectedRoomForEdit, setSelectedRoomForEdit] = useState(null);
@@ -61,7 +67,11 @@ export default function App() {
     const savedUser = localStorage.getItem('bosshouse_user');
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const currentUser = JSON.parse(savedUser);
+        setUser(currentUser);
+        if (currentUser.role === 'admin') {
+          setActiveTab('admin');
+        }
       } catch (e) {
         localStorage.removeItem('bosshouse_user');
       }
@@ -123,6 +133,13 @@ export default function App() {
         showToast(`Xin chào mừng ${res.user.name} trở lại!`, 'success');
         setIsAuthModalOpen(false);
         fetchUserData();
+        
+        // Mặc định: Customer -> 'home', Admin -> 'admin'
+        if (res.user.role === 'admin') {
+          setActiveTab('admin');
+        } else {
+          setActiveTab('home');
+        }
       } else {
         showToast(res.message || 'Đăng nhập thất bại', 'error');
       }
@@ -141,6 +158,12 @@ export default function App() {
         showToast('Đăng ký tài khoản thành công!', 'success');
         setIsAuthModalOpen(false);
         fetchUserData();
+
+        if (res.user.role === 'admin') {
+          setActiveTab('admin');
+        } else {
+          setActiveTab('home');
+        }
       } else {
         showToast(res.message || 'Đăng ký thất bại', 'error');
       }
@@ -195,6 +218,11 @@ export default function App() {
 
   // Booking Handler
   const handleBookRoom = (room) => {
+    if (user?.role === 'admin') {
+      showToast('👑 Quyền Quản Trị Viên (Admin): Đơn đặt phòng & dịch vụ được quản lý trong Admin Portal.', 'info');
+      setActiveTab('admin');
+      return;
+    }
     if (!requireAuth()) return;
     setSelectedRoomForBooking(room);
     setIsBookingModalOpen(true);
@@ -270,6 +298,10 @@ export default function App() {
       setIsAuthModalOpen(true);
       return;
     }
+    if (user.role === 'admin') {
+      showToast('Tài khoản Admin không viết đánh giá khách hàng.', 'warning');
+      return;
+    }
 
     try {
       const res = await api.createReview(reviewData);
@@ -282,6 +314,22 @@ export default function App() {
       }
     } catch (err) {
       showToast('Lỗi gửi đánh giá', 'error');
+    }
+  };
+
+  const handleDeleteReview = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) return;
+    try {
+      const res = await api.deleteReview(id);
+      if (res.success) {
+        showToast(res.message, 'info');
+        const revRes = await api.getReviews();
+        if (revRes.success) setReviews(revRes.data);
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      showToast('Lỗi khi xóa đánh giá', 'error');
     }
   };
 
@@ -405,21 +453,29 @@ export default function App() {
     }
   };
 
+  const handleViewDetail = (item, type = 'room') => {
+    setDetailItem(item);
+    setDetailType(type);
+    setIsDetailModalOpen(true);
+  };
+
   return (
     <div className="app-container">
       {/* Toast Alert */}
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      {/* Navigation Bar */}
-      <Navbar 
-        activeTab={activeTab}
-        setActiveTab={handleSelectTab}
-        user={user}
-        onOpenAuth={() => setIsAuthModalOpen(true)}
-        onLogout={handleLogout}
-        onOpenBooking={() => handleBookRoom(rooms[0])}
-        onOpenProfile={() => setIsProfileModalOpen(true)}
-      />
+      {/* Navigation Bar - Rendered for Customer / Guest views */}
+      {activeTab !== 'admin' && (
+        <Navbar 
+          activeTab={activeTab}
+          setActiveTab={handleSelectTab}
+          user={user}
+          onOpenAuth={() => setIsAuthModalOpen(true)}
+          onLogout={handleLogout}
+          onOpenBooking={() => handleBookRoom(rooms[0])}
+          onOpenProfile={() => setIsProfileModalOpen(true)}
+        />
+      )}
 
       {/* Main Tab Views */}
       <main className="main-content" style={{ paddingBottom: activeTab === 'admin' ? 0 : '60px' }}>
@@ -429,21 +485,33 @@ export default function App() {
             services={services} 
             reviews={reviews} 
             onBookRoom={handleBookRoom} 
-            onSelectTab={handleSelectTab} 
+            onSelectTab={handleSelectTab}
+            user={user}
+            onEditRoom={(rm) => { setSelectedRoomForEdit(rm); setIsRoomModalOpen(true); }}
+            onEditService={(sv) => { setSelectedServiceForEdit(sv); setIsServiceModalOpen(true); }}
+            onViewDetail={(item, type) => handleViewDetail(item, type)}
           />
         )}
 
         {activeTab === 'rooms' && (
           <RoomsPage 
             rooms={rooms} 
-            onBookRoom={handleBookRoom} 
+            onBookRoom={handleBookRoom}
+            user={user}
+            onEditRoom={(rm) => { setSelectedRoomForEdit(rm); setIsRoomModalOpen(true); }}
+            onOpenAddRoom={() => { setSelectedRoomForEdit(null); setIsRoomModalOpen(true); }}
+            onViewDetail={(rm) => handleViewDetail(rm, 'room')}
           />
         )}
 
         {activeTab === 'services' && (
           <ServicesPage 
             services={services} 
-            onBookService={() => handleBookRoom(rooms[0])} 
+            onBookService={() => handleBookRoom(rooms[0])}
+            user={user}
+            onEditService={(sv) => { setSelectedServiceForEdit(sv); setIsServiceModalOpen(true); }}
+            onOpenAddService={() => { setSelectedServiceForEdit(null); setIsServiceModalOpen(true); }}
+            onViewDetail={(sv) => handleViewDetail(sv, 'service')}
           />
         )}
 
@@ -452,7 +520,8 @@ export default function App() {
             pets={pets} 
             onOpenAddPet={() => { if (!requireAuth()) return; setIsPetModalOpen(true); }} 
             onDeletePet={handleDeletePet} 
-            user={user} 
+            user={user}
+            onGoToAdmin={() => setActiveTab('admin')}
           />
         )}
 
@@ -460,14 +529,17 @@ export default function App() {
           <MyBookingsPage 
             bookings={bookings} 
             onCancelBooking={handleCancelBooking} 
-            onOpenBooking={() => handleBookRoom(rooms[0])} 
+            onOpenBooking={() => handleBookRoom(rooms[0])}
+            user={user}
+            onGoToAdmin={() => setActiveTab('admin')}
           />
         )}
 
         {activeTab === 'reviews' && (
           <ReviewsPage 
             reviews={reviews} 
-            onSubmitReview={handleSubmitReview} 
+            onSubmitReview={handleSubmitReview}
+            onDeleteReview={handleDeleteReview} 
             user={user} 
             onOpenAuth={() => setIsAuthModalOpen(true)}
           />
@@ -480,8 +552,11 @@ export default function App() {
             services={services}
             pets={pets}
             usersList={usersList}
+            reviews={reviews}
+            user={user}
             onUpdateStatus={handleUpdateBookingStatus} 
             onRefreshData={fetchInitialData} 
+            onDeleteReview={handleDeleteReview}
             onOpenAddRoom={() => { setSelectedRoomForEdit(null); setIsRoomModalOpen(true); }}
             onEditRoom={(rm) => { setSelectedRoomForEdit(rm); setIsRoomModalOpen(true); }}
             onDeleteRoom={handleDeleteRoom}
@@ -497,6 +572,29 @@ export default function App() {
 
       {/* Floating Chatbox Widget for Customer support */}
       {activeTab !== 'admin' && <Chatbox user={user} onOpenBooking={() => handleBookRoom(rooms[0])} />}
+
+      {/* Detail Modal (Full Uncropped Image View) */}
+      <DetailModal 
+        isOpen={isDetailModalOpen}
+        onClose={() => { setIsDetailModalOpen(false); setDetailItem(null); }}
+        item={detailItem}
+        type={detailType}
+        user={user}
+        onBook={(itm) => {
+          setIsDetailModalOpen(false);
+          handleBookRoom(itm);
+        }}
+        onEdit={(itm) => {
+          setIsDetailModalOpen(false);
+          if (detailType === 'room') {
+            setSelectedRoomForEdit(itm);
+            setIsRoomModalOpen(true);
+          } else {
+            setSelectedServiceForEdit(itm);
+            setIsServiceModalOpen(true);
+          }
+        }}
+      />
 
       {/* Customer Modals */}
       <BookingModal 

@@ -195,6 +195,14 @@ export const api = {
     return res.json();
   },
 
+  deleteReview: async (id) => {
+    const res = await fetch(`${API_BASE_URL}/reviews/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return res.json();
+  },
+
   // Admin Stats & Users
   getAdminStats: async () => {
     const res = await fetch(`${API_BASE_URL}/admin/stats`, {

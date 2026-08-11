@@ -52,37 +52,51 @@ export const ProfileModal = ({ isOpen, onClose, user, onUpdateProfile }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()} style={{ maxWidth: '520px' }}>
+      <div 
+        className="modal-container" 
+        onClick={e => e.stopPropagation()} 
+        style={{ 
+          maxWidth: '540px',
+          background: 'linear-gradient(165deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 100%)',
+          border: '1px solid rgba(245, 158, 11, 0.3)',
+          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(245, 158, 11, 0.15)',
+          borderRadius: '24px',
+          padding: '30px'
+        }}
+      >
         {/* Header */}
-        <div className="modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="modal-header" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '16px', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
-              width: '40px',
-              height: '40px',
+              width: '42px',
+              height: '42px',
               borderRadius: '50%',
               background: 'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#0f172a'
+              color: '#0f172a',
+              boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)'
             }}>
               <User size={22} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Hồ Sơ Cá Nhân</h3>
-              <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', margin: 0 }}>
-                Quản lý và cập nhật thông tin tài khoản BossHouse
+              <h3 style={{ fontSize: '1.3rem', fontWeight: 800, margin: 0, color: '#fff' }}>Hồ Sơ Tài Khoản Cá Nhân</h3>
+              <p style={{ fontSize: '0.82rem', color: '#94a3b8', margin: 0 }}>
+                Quản lý thông tin xác thực & mật khẩu BossHouse
               </p>
             </div>
           </div>
-          <button className="close-btn" onClick={onClose}><X size={20} /></button>
+          <button className="close-btn" onClick={onClose} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '50%', padding: '6px' }}>
+            <X size={20} />
+          </button>
         </div>
 
         {/* User Status Card */}
         <div style={{
-          background: 'rgba(15, 23, 42, 0.6)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
+          background: 'rgba(15, 23, 42, 0.7)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '16px',
           padding: '16px',
           marginBottom: '20px',
           display: 'flex',
@@ -90,8 +104,8 @@ export const ProfileModal = ({ isOpen, onClose, user, onUpdateProfile }) => {
           justifyContent: 'space-between'
         }}>
           <div>
-            <div style={{ fontSize: '1.1rem', fontWeight: 800 }}>{user.name}</div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>{user.email}</div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff' }}>{user.name}</div>
+            <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '2px' }}>{user.email}</div>
           </div>
           <div>
             {getRoleBadge(user.role)}
@@ -100,8 +114,8 @@ export const ProfileModal = ({ isOpen, onClose, user, onUpdateProfile }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <User size={16} color="var(--color-primary)" /> Họ Và Tên *
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
+              <User size={16} color="#f59e0b" /> HỌ VÀ TÊN KHÁCH HÀNG / ADMIN *
             </label>
             <input 
               type="text" 
@@ -114,20 +128,20 @@ export const ProfileModal = ({ isOpen, onClose, user, onUpdateProfile }) => {
 
           <div className="grid-2">
             <div className="form-group">
-              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Mail size={16} color="var(--color-text-muted)" /> Email (Đã cố định)
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
+                <Mail size={16} color="#94a3b8" /> EMAIL (ĐÃ CỐ ĐỊNH)
               </label>
               <input 
                 type="email" 
                 className="form-input" 
                 value={user.email}
                 disabled
-                style={{ opacity: 0.7, cursor: 'not-allowed', background: 'rgba(0,0,0,0.2)' }}
+                style={{ opacity: 0.7, cursor: 'not-allowed', background: 'rgba(0,0,0,0.3)' }}
               />
             </div>
             <div className="form-group">
-              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Phone size={16} color="var(--color-primary)" /> Số Điện Thoại
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
+                <Phone size={16} color="#f59e0b" /> SỐ ĐIỆN THOẠI
               </label>
               <input 
                 type="text" 
@@ -140,8 +154,8 @@ export const ProfileModal = ({ isOpen, onClose, user, onUpdateProfile }) => {
           </div>
 
           <div className="form-group">
-            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Settings size={16} color="var(--color-primary)" /> Đổi Mật Khẩu Mới (Để trống nếu không đổi)
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
+              <Settings size={16} color="#f59e0b" /> ĐỔI MẬT KHẨU MỚI (ĐỂ TRỐNG NẾU KHÔNG ĐỔI)
             </label>
             <input 
               type="password" 
@@ -154,7 +168,12 @@ export const ProfileModal = ({ isOpen, onClose, user, onUpdateProfile }) => {
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
             <button type="button" className="btn btn-secondary" onClick={onClose}>Đóng</button>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)', color: '#fff', fontWeight: 700 }}
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'Đang Cập Nhật...' : 'Lưu Cập Nhật Hồ Sơ 💾'}
             </button>
           </div>

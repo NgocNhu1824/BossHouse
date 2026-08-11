@@ -1,10 +1,33 @@
 import React from 'react';
 import { Dog, PlusCircle, Trash2, Heart, Scale, Calendar, AlertCircle } from '../components/Icons';
 
-export const MyPetsPage = ({ pets = [], onOpenAddPet, onDeletePet, user }) => {
+export const MyPetsPage = ({ pets = [], onOpenAddPet, onDeletePet, user, onGoToAdmin }) => {
+  const isAdmin = user?.role === 'admin';
+
   return (
     <div style={{ padding: '40px 0 80px 0' }}>
       <div className="container">
+        
+        {isAdmin && (
+          <div className="card-glass" style={{ padding: '20px', marginBottom: '32px', border: '1px solid rgba(236, 72, 153, 0.35)', background: 'rgba(236, 72, 153, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'rgba(236, 72, 153, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f472b6', flexShrink: 0 }}>
+                👑
+              </div>
+              <div>
+                <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fff' }}>Chế độ Quản Trị Viên (Admin)</div>
+                <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Danh sách hồ sơ thú cưng của tất cả khách hàng được theo dõi và quản lý trong Cổng Quản Trị Admin.</div>
+              </div>
+            </div>
+
+            {onGoToAdmin && (
+              <button className="btn btn-primary btn-sm" onClick={onGoToAdmin} style={{ background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)', color: '#fff' }}>
+                Quản Trị Boss Thú Cưng (Admin)
+              </button>
+            )}
+          </div>
+        )}
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
           <div>
             <h1 style={{ fontSize: '2rem', marginBottom: '6px' }}>Hồ Sơ Boss Yêu Của Tôi 🐾</h1>
@@ -13,9 +36,11 @@ export const MyPetsPage = ({ pets = [], onOpenAddPet, onDeletePet, user }) => {
             </p>
           </div>
 
-          <button className="btn btn-primary btn-lg" onClick={onOpenAddPet}>
-            <PlusCircle size={20} /> Thêm Boss Mới
-          </button>
+          {!isAdmin && (
+            <button className="btn btn-primary btn-lg" onClick={onOpenAddPet}>
+              <PlusCircle size={20} /> Thêm Boss Mới
+            </button>
+          )}
         </div>
 
         {pets.length === 0 ? (

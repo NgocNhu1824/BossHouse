@@ -32,30 +32,48 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div 
+        className="modal-container" 
+        onClick={e => e.stopPropagation()}
+        style={{ 
+          maxWidth: '560px',
+          background: 'linear-gradient(165deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 100%)',
+          border: '1px solid rgba(245, 158, 11, 0.3)',
+          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(245, 158, 11, 0.15)',
+          borderRadius: '24px',
+          padding: '30px'
+        }}
+      >
+        <div className="modal-header" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '16px', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
+              width: '42px',
+              height: '42px',
+              borderRadius: '12px',
               background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white'
+              fontSize: '1.3rem',
+              color: 'white',
+              boxShadow: '0 4px 14px rgba(236, 72, 153, 0.35)'
             }}>
               🐾
             </div>
-            <h2 style={{ fontSize: '1.25rem' }}>Thêm Hồ Sơ Boss Mới</h2>
+            <div>
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, margin: 0, color: '#fff' }}>Khởi Tạo Hồ Sơ Boss Mới</h2>
+              <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Đăng ký thông tin thú cưng để phục vụ lưu trú và spa tốt nhất</span>
+            </div>
           </div>
-          <button className="close-btn" onClick={onClose}><X size={20} /></button>
+          <button className="close-btn" onClick={onClose} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '50%', padding: '6px' }}>
+            <X size={20} />
+          </button>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="grid-2">
             <div className="form-group">
-              <label className="form-label">Tên Boss *</label>
+              <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>TÊN BOSS *</label>
               <input 
                 type="text" 
                 className="form-input" 
@@ -67,7 +85,7 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Loại thú cưng *</label>
+              <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>LOẠI THÚ CƯNG *</label>
               <select className="form-select" value={type} onChange={e => setType(e.target.value)}>
                 <option value="cat">Mèo cưng 🐱</option>
                 <option value="dog">Chó cưng 🐶</option>
@@ -77,7 +95,7 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Giống loài (Breed)</label>
+            <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>GIỐNG LOÀI (BREED)</label>
             <input 
               type="text" 
               className="form-input" 
@@ -89,7 +107,7 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
 
           <div className="grid-2">
             <div className="form-group">
-              <label className="form-label">Tuổi (Năm)</label>
+              <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>TUỔI (NĂM)</label>
               <input 
                 type="number" 
                 step="0.5" 
@@ -100,7 +118,7 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Cân nặng (kg)</label>
+              <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>CÂN NẶNG (KG)</label>
               <input 
                 type="number" 
                 step="0.1" 
@@ -112,7 +130,7 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Ghi chú sức khỏe & sở thích</label>
+            <label className="form-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>GHI CHÚ SỨC KHỎE & SỞ THÍCH</label>
             <textarea 
               className="form-textarea" 
               placeholder="Sở thích ăn uống, thói quen đi vệ sinh, tiền sử dị ứng..." 
@@ -123,8 +141,13 @@ export const PetModal = ({ isOpen, onClose, onAddPet, userId }) => {
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
             <button type="button" className="btn btn-secondary" onClick={onClose}>Hủy Bỏ</button>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-              {isSubmitting ? 'Đang Lưu...' : 'Lưu Hồ Sơ Boss'}
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              style={{ background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)', color: '#fff', fontWeight: 700 }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Đang Lưu...' : 'Lưu Hồ Sơ Boss 🐾'}
             </button>
           </div>
         </form>

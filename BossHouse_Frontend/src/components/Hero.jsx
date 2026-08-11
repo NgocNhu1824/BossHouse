@@ -1,7 +1,9 @@
 import React from 'react';
 import { Calendar, Shield, Sparkles, Award, Video, Heart } from './Icons';
 
-export const Hero = ({ onOpenBooking, onExploreRooms }) => {
+export const Hero = ({ onOpenBooking, onExploreRooms, user }) => {
+  const isAdmin = user?.role === 'admin';
+
   return (
     <section style={{
       position: 'relative',
@@ -26,9 +28,27 @@ export const Hero = ({ onOpenBooking, onExploreRooms }) => {
           </p>
 
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '40px' }}>
-            <button className="btn btn-primary btn-lg" onClick={onOpenBooking}>
-              <Calendar size={22} /> Đặt Phòng Ngay
-            </button>
+            {isAdmin ? (
+              <button 
+                className="btn btn-secondary btn-lg"
+                disabled={true}
+                style={{ 
+                  opacity: 0.7, 
+                  cursor: 'not-allowed', 
+                  background: 'rgba(236, 72, 153, 0.12)', 
+                  color: '#f472b6', 
+                  borderColor: 'rgba(236, 72, 153, 0.35)',
+                  boxShadow: 'none'
+                }}
+                title="🔒 Chế độ Admin: Tính năng Đặt phòng chỉ dành cho Khách hàng."
+              >
+                <Calendar size={22} /> 🔒 Đặt Phòng (Khóa với Admin)
+              </button>
+            ) : (
+              <button className="btn btn-primary btn-lg" onClick={onOpenBooking}>
+                <Calendar size={22} /> Đặt Phòng Ngay
+              </button>
+            )}
             <button className="btn btn-secondary btn-lg" onClick={onExploreRooms}>
               Xem Danh Sách Phòng
             </button>

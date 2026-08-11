@@ -27,8 +27,11 @@ export const AdminDashboard = ({
   services = [], 
   pets = [], 
   usersList = [],
+  reviews = [],
+  user = null,
   onUpdateStatus, 
   onRefreshData,
+  onDeleteReview,
   onOpenAddRoom,
   onEditRoom,
   onDeleteRoom,
@@ -40,7 +43,7 @@ export const AdminDashboard = ({
   onExitAdmin
 }) => {
   const [stats, setStats] = useState(null);
-  const [activeAdminTab, setActiveAdminTab] = useState('analytics'); // 'analytics' | 'bookings' | 'rooms' | 'services' | 'pets' | 'users'
+  const [activeAdminTab, setActiveAdminTab] = useState('analytics'); // 'analytics' | 'bookings' | 'rooms' | 'services' | 'pets' | 'users' | 'reviews'
   const [statusFilter, setStatusFilter] = useState('all');
   const [roleFilter, setRoleFilter] = useState('all'); // 'all' | 'admin' | 'staff' | 'customer'
   const [searchQuery, setSearchQuery] = useState('');
@@ -217,7 +220,7 @@ export const AdminDashboard = ({
   const totalRevAmount = stats ? stats.totalRevenue : bookings.reduce((sum, b) => b.status !== 'cancelled' ? sum + Number(b.totalAmount || 0) : sum, 0);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0b0f19', color: '#f8fafc' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%', maxWidth: '100vw', background: '#0b0f19', color: '#f8fafc', overflowX: 'hidden' }}>
       
       {/* 👑 Top Header Bar */}
       <header style={{
@@ -328,23 +331,27 @@ export const AdminDashboard = ({
             padding: '4px 12px 4px 6px',
             background: 'rgba(30, 41, 59, 0.8)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '24px'
+            borderRadius: '24px',
+            whiteSpace: 'nowrap'
           }}>
             <div style={{
               width: '32px',
               height: '32px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+              background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white'
+              color: 'white',
+              flexShrink: 0
             }}>
               <User size={18} />
             </div>
             <div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, lineHeight: 1.1 }}>Nguyễn Hoàng Việt</div>
-              <span style={{ fontSize: '0.7rem', color: '#f59e0b', fontWeight: 600 }}>👑 Quản Trị Viên</span>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+                {user ? user.name : 'Nguyễn Hoàng Việt'}
+              </div>
+              <span style={{ fontSize: '0.7rem', color: '#ec4899', fontWeight: 600, whiteSpace: 'nowrap' }}>👑 Quản Trị Viên (Admin)</span>
             </div>
           </div>
 
@@ -352,7 +359,7 @@ export const AdminDashboard = ({
             <button 
               className="btn btn-secondary btn-sm"
               onClick={onExitAdmin}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
               title="Thoát giao diện Admin trở về Khách hàng"
             >
               <LogOut size={16} /> Web Customer
@@ -362,11 +369,12 @@ export const AdminDashboard = ({
       </header>
 
       {/* Main Body Container with Collapsible Sidebar */}
-      <div style={{ display: 'flex', flex: 1 }}>
+      <div style={{ display: 'flex', flex: 1, minWidth: 0, width: '100%' }}>
 
         {/* 📐 Collapsible Admin Sidebar Navigation */}
         <aside style={{
           width: isSidebarCollapsed ? '72px' : '250px',
+          flexShrink: 0,
           background: 'rgba(15, 23, 42, 0.8)',
           borderRight: '1px solid rgba(255, 255, 255, 0.08)',
           padding: isSidebarCollapsed ? '20px 8px' : '20px 16px',
@@ -374,7 +382,8 @@ export const AdminDashboard = ({
           flexDirection: 'column',
           gap: '8px',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          whiteSpace: 'nowrap'
         }}>
           <div style={{
             fontSize: '0.72rem',
@@ -512,10 +521,39 @@ export const AdminDashboard = ({
             <Users size={20} color={activeAdminTab === 'users' ? '#f59e0b' : '#94a3b8'} />
             {!isSidebarCollapsed && <span>Quản Lý Người Dùng</span>}
           </button>
+
+          <button 
+            onClick={() => setActiveAdminTab('reviews')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '12px',
+              borderRadius: '10px',
+              border: 'none',
+              background: activeAdminTab === 'reviews' ? 'linear-gradient(90deg, rgba(245, 158, 11, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%)' : 'transparent',
+              color: activeAdminTab === 'reviews' ? '#f59e0b' : '#94a3b8',
+              fontWeight: activeAdminTab === 'reviews' ? 700 : 500,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              textAlign: 'left',
+              transition: 'all 0.2s ease',
+              justifyContent: isSidebarCollapsed ? 'center' : 'flex-start'
+            }}
+            title="Quản Lý & Kiểm Duyệt Đánh Giá Khách Hàng"
+          >
+            <Sparkles size={20} color={activeAdminTab === 'reviews' ? '#f59e0b' : '#94a3b8'} />
+            {!isSidebarCollapsed && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <span>Quản Lý Đánh Giá</span>
+                <span className="badge badge-info" style={{ fontSize: '0.72rem', padding: '2px 6px' }}>{reviews.length}</span>
+              </div>
+            )}
+          </button>
         </aside>
 
         {/* 🏢 Main Enterprise Workspace Content */}
-        <main style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
+        <main style={{ flex: 1, minWidth: 0, padding: '24px', overflowY: 'auto', overflowX: 'hidden' }}>
 
           {/* 📈 KPI Stat Cards Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
@@ -1037,6 +1075,84 @@ export const AdminDashboard = ({
                           <td style={{ padding: '12px', color: '#94a3b8' }}>{pt.notes || 'Bình thường'}</td>
                         </tr>
                       ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Section 6: Manage Customer Reviews & Feedback */}
+          {activeAdminTab === 'reviews' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div className="card-glass" style={{ padding: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                  <div>
+                    <h3 style={{ fontSize: '1.25rem', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      🌟 Kiểm Duyệt & Quản Lý Đánh Giá Từ Khách Hàng
+                    </h3>
+                    <span style={{ fontSize: '0.84rem', color: '#94a3b8' }}>
+                      Theo dõi tất cả đánh giá, phản hồi thực tế từ các chủ nuôi gửi gắm thú cưng
+                    </span>
+                  </div>
+                  <span className="badge badge-info" style={{ fontSize: '0.85rem', padding: '6px 14px' }}>
+                    Tổng số: {reviews.length} đánh giá
+                  </span>
+                </div>
+
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '2px solid rgba(255,255,255,0.1)', color: '#94a3b8', background: '#0f172a' }}>
+                        <th style={{ padding: '12px' }}>Khách Hàng</th>
+                        <th style={{ padding: '12px' }}>Tên Boss Cưng</th>
+                        <th style={{ padding: '12px' }}>Số Sao (Rating)</th>
+                        <th style={{ padding: '12px', width: '40%' }}>Nội Dung Đánh Giá</th>
+                        <th style={{ padding: '12px' }}>Ngày Đánh Giá</th>
+                        <th style={{ padding: '12px', textAlign: 'right' }}>Thao Tác Duyệt</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reviews.length === 0 ? (
+                        <tr>
+                          <td colSpan="6" style={{ padding: '24px', textAlign: 'center', color: '#94a3b8' }}>
+                            Chưa có đánh giá nào từ khách hàng.
+                          </td>
+                        </tr>
+                      ) : (
+                        reviews.map(rev => (
+                          <tr key={rev.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                            <td style={{ padding: '12px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <img src={rev.avatar} alt={rev.userName} style={{ width: '34px', height: '34px', borderRadius: '50%', objectFit: 'cover' }} />
+                                <span style={{ fontWeight: 700 }}>{rev.userName}</span>
+                              </div>
+                            </td>
+                            <td style={{ padding: '12px', color: '#f59e0b', fontWeight: 600 }}>{rev.petName}</td>
+                            <td style={{ padding: '12px' }}>
+                              <div style={{ display: 'flex', gap: '2px' }}>
+                                {[...Array(rev.rating)].map((_, i) => (
+                                  <Sparkles key={i} size={14} color="#fbbf24" />
+                                ))}
+                              </div>
+                            </td>
+                            <td style={{ padding: '12px', color: '#cbd5e1', lineHeight: 1.5 }}>"{rev.comment}"</td>
+                            <td style={{ padding: '12px', color: '#94a3b8', fontSize: '0.8rem' }}>{rev.date}</td>
+                            <td style={{ padding: '12px', textAlign: 'right' }}>
+                              {onDeleteReview && (
+                                <button 
+                                  className="btn btn-secondary btn-sm"
+                                  onClick={() => onDeleteReview(rev.id)}
+                                  style={{ color: '#f87171', borderColor: 'rgba(248,113,113,0.3)', padding: '6px 12px' }}
+                                  title="Xóa đánh giá vi phạm"
+                                >
+                                  <Trash2 size={14} /> Xóa
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
