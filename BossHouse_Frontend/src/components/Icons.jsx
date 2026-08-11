@@ -263,6 +263,13 @@ export const ArrowRight = (props) => (
   </Icon>
 );
 
+export const ArrowUp = (props) => (
+  <Icon {...props}>
+    <line x1="12" y1="19" x2="12" y2="5" />
+    <polyline points="5 12 12 5 19 12" />
+  </Icon>
+);
+
 export const Filter = (props) => (
   <Icon {...props}>
     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>

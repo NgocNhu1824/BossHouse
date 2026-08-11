@@ -9,6 +9,7 @@ import { RoomModal, ServiceModal, UserModal } from './components/AdminModals';
 import { ProfileModal } from './components/ProfileModal';
 import { DetailModal } from './components/DetailModal';
 import { Chatbox } from './components/Chatbox';
+import { ArrowUp } from './components/Icons';
 
 import { HomePage } from './pages/HomePage';
 import { RoomsPage } from './pages/RoomsPage';
@@ -62,6 +63,11 @@ export default function App() {
     fetchInitialData();
     checkAuth();
   }, []);
+
+  // 🚀 Tự động cuộn lên đầu trang ngay lập tức khi chuyển Tab / Mục
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activeTab]);
 
   const checkAuth = async () => {
     const savedUser = localStorage.getItem('bosshouse_user');
@@ -650,8 +656,64 @@ export default function App() {
         onSubmit={handleCreateUser}
       />
 
+      {/* Floating Scroll To Top Button Widget ⬆️ */}
+      <ScrollToTopButton />
+
       {/* Footer */}
       {activeTab !== 'admin' && <Footer />}
     </div>
+  );
+}
+
+// ⬆️ Floating Back To Top Button Component
+function ScrollToTopButton() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 250) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  if (!visible) return null;
+
+  return (
+    <button
+      onClick={scrollToTop}
+      style={{
+        position: 'fixed',
+        bottom: '28px',
+        right: '28px',
+        width: '46px',
+        height: '46px',
+        borderRadius: '50%',
+        background: 'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)',
+        color: '#fff',
+        border: '1px solid rgba(255, 255, 255, 0.25)',
+        boxShadow: '0 8px 24px rgba(245, 158, 11, 0.45)',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1400,
+        transition: 'all 0.25s ease',
+      }}
+      title="Cuộn lên đầu trang ⬆️"
+    >
+      <ArrowUp size={22} />
+    </button>
   );
 }
