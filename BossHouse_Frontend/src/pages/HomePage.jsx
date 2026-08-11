@@ -132,7 +132,7 @@ export const HomePage = ({ rooms = [], services = [], reviews = [], onBookRoom, 
       <section style={{ padding: '80px 0' }}>
         <div className="container">
           <h2 className="section-title">Khách Hàng Nói Gì Về <span className="gradient-text">BossHouse</span>?</h2>
-          <p className="section-subtitle">Hàng ngàn phản hồi 5-sao từ các "Sen" yêu quý</p>
+          <p className="section-subtitle">Hàng ngàn phản hồi 5-sao từ khách hàng yêu quý</p>
 
           <div className="grid-3">
             {reviews.slice(0, 3).map(rev => (

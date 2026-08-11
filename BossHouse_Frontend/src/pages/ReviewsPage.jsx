@@ -37,9 +37,9 @@ export const ReviewsPage = ({ reviews = [], onSubmitReview, onDeleteReview, user
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '36px' }}>
           <div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '6px' }}>Đánh Giá Từ Phụ Huynh 🌟</h1>
+            <h1 style={{ fontSize: '2rem', marginBottom: '6px' }}>Đánh Giá Từ Khách Hàng 🌟</h1>
             <p style={{ color: 'var(--color-text-muted)' }}>
-              Cảm nhận chân thực từ các gia đình gửi gắm Boss tại BossHouse
+              Cảm nhận chân thực từ các khách hàng gửi gắm Boss tại BossHouse
             </p>
           </div>
 
