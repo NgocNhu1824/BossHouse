@@ -1,167 +1,167 @@
-# 🐾 BossHouse - Nền Tảng Quản Lý Khách Sạn & Dịch Vụ Thú Cưng (Pet Care Management System)
+# BossHouse
 
-> **Dự án Full-stack Web Application** được thiết kế và phát triển nhằm tối ưu hóa quy trình đặt lịch lưu trú, chăm sóc thú cưng cho khách hàng và cung cấp bộ công cụ quản trị kinh doanh toàn diện cho doanh nghiệp.
+Nen tang quan ly khach san va dich vu cham soc thu cung theo mo hinh full-stack web application.
 
----
+Portfolio nay duoc thiet ke de the hien kha nang xay dung san pham tu UI den API, voi mot bai toan kinh doanh cu the: giup co so pet care van hanh dat lich, phong, dich vu, thu cung va danh gia tren cung mot he thong.
 
-## 📌 Tổng Quan Dự Án (Project Overview)
+## 1) Elevator Pitch
+BossHouse la du an full-stack huong den 2 nhom nguoi dung:
+- Pet Owner: dang ky, dang nhap, dat phong, dat dich vu, quan ly thu cung, theo doi booking, gui review.
+- Admin/Staff: quan ly phong, dich vu, nguoi dung, booking, theo doi thong ke he thong.
 
-Trong bối cảnh nhu cầu chăm sóc và gửi gắm thú cưng ("Boss") ngày càng tăng cao, **BossHouse** ra đời như một giải pháp công nghệ hiện đại chuyển đổi số cho các trung tâm dịch vụ thú cưng. Nền tảng giúp rút ngắn thời gian đặt dịch vụ, nâng cao trải nghiệm khách hàng và tự động hóa quy trình quản lý vận hành của nhà quản trị.
+Muc tieu portfolio:
+- Cho thay kha nang phan tich nghiep vu va modeling du lieu.
+- Cho thay kha nang xay dung UI co nhieu role va luong thao tac.
+- Cho thay kha nang tach Frontend/Backend ro rang va san sang nang cap.
 
-- **Mục tiêu dự án**: Xây dựng hệ thống đặt lịch tự động, minh bạch thông tin giá phòng/dịch vụ, quản lý hồ sơ thú cưng chuyên sâu và hỗ trợ quản trị viên theo dõi doanh thu/trạng thái phòng theo thời gian thực.
-- **Đối tượng sử dụng**:
-  - **Khách hàng (Pet Owner)**: Đặt phòng lưu trú, đặt dịch vụ chăm sóc (Grooming/Spa/Kham sức khỏe), quản lý danh sách thú cưng và gửi đánh giá.
-  - **Quản trị viên (Admin/Staff)**: Quản lý danh mục phòng & dịch vụ, duyệt/hủy đơn đặt lịch, xem thống kê báo cáo và điều hành hệ thống.
+## 2) Diem An Tuong Danh Cho Nha Tuyen Dung
+- Full-stack hoan chinh voi kien truc Frontend/Backend tach biet.
+- Co luong nghiep vu ro (booking lifecycle, pet profile, review, admin dashboard).
+- Co REST API rieng cho tung module: auth, rooms, services, pets, bookings, reviews, admin.
+- Co du lieu mau de chay ngay, khong can setup DB phuc tap.
+- Co roadmap nang cap len production-grade (bao mat, CSDL, thanh toan, thong bao realtime).
 
----
+## 3) Tech Stack (Current)
+### Frontend
+- React 18
+- Vite
+- CSS custom
+- Lucide React
 
-## ✨ Tính Năng Nổi Bật (Key Features)
+### Backend
+- Node.js
+- Express.js
+- CORS, Morgan, Cookie Parser
+- JSON file persistence thong qua JsonDB helper
+- uuid de tao id
 
-### 🐶 Dành Cho Khách Hàng (Customer Portal)
-- **Đăng ký / Đăng nhập an toàn**: Xác thực người dùng qua JWT, bảo mật thông tin tài khoản.
-- **Đặt phòng Khách sạn Boss**: Xem danh sách phòng lưu trú (VIP, Standard, Suite), kiểm tra giá, tiện ích và đặt phòng trực tuyến.
-- **Đặt lịch Dịch vụ Spa & Grooming**: Lựa chọn gói chăm sóc (Tắm spa, Cắt tỉa lông, Vệ sinh, Khám sức khỏe) theo mốc thời gian linh hoạt.
-- **Quản lý Hồ sơ Thú cưng (Boss Profiles)**: Lưu trữ thông tin chi tiết từng thú cưng (Tên, Giống, Cân nặng, Tuổi, Ghi chú sức khỏe/thói quen ăn uống).
-- **Lịch sử & Trạng thái Đặt lịch**: Theo dõi trạng thái đơn đặt (`Pending`, `Confirmed`, `Completed`, `Cancelled`) trực quan.
-- **Đánh giá & Phản hồi (Reviews & Rating)**: Gửi nhận xét và chấm điểm sao cho từng dịch vụ sau khi trải nghiệm.
+## 4) Tinh Trang Thuc Te Hien Tai (Honest Project Status)
+Du an hien o muc MVP va da chay end-to-end local.
 
-### 🛡️ Dành Cho Quản Trị Viên (Admin Dashboard)
-- **Tổng quan Thống kê (Analytics Dashboard)**: Báo cáo nhanh tổng số lượng đơn đặt, doanh thu ước tính, tổng số thú cưng và khách hàng trên hệ thống.
-- **Quản lý Đơn đặt (Booking Management)**: Xem danh sách đơn, cập nhật trạng thái đơn (Phê duyệt / Từ chối / Hoàn thành) nhanh chóng.
-- **Quản lý Phòng & Dịch vụ (Rooms & Services Management)**: Thêm mới, chỉnh sửa giá, mô tả, hình ảnh và cập nhật trạng thái khả dụng của phòng/dịch vụ.
-- **Quản lý Người dùng & Thú cưng**: Theo dõi danh sách tài khoản khách hàng và dữ liệu thú cưng đăng ký trên hệ thống.
+Da co:
+- Dang ky / dang nhap co token don gian.
+- CRUD room, service, pet, user (admin).
+- Tao booking, huy booking, cap nhat trang thai booking.
+- Gui va xoa review.
+- Dashboard thong ke tong quan cho admin.
 
----
+Chua production-ready:
+- Chua dung JWT signing/verification thuc su.
+- Chua hash password voi bcrypt (hien dang luu plain text trong du lieu local).
+- Chua co test tu dong (unit/integration/e2e).
+- Chua co CI/CD va chua deploy cloud.
 
-## 🛠️ Công Nghệ Sử Dụng (Tech Stack)
+Luu y: Viec minh bach tinh trang du an giup nha tuyen dung danh gia dung nang luc va thay ro tu duy ky thuat cua ung vien.
 
-### **Frontend**
-- **Core**: React 18 (Vite build tool)
-- **Routing & State**: React Hooks & Component Architecture
-- **Styling**: Modern CSS3, Dynamic UI Themes, Responsive Design (Desktop & Mobile)
-- **Icons**: Lucide React Icons
-
-### **Backend**
-- **Core Runtime**: Node.js & Express.js Framework
-- **Architecture**: RESTful API Architecture
-- **Authentication & Security**: JSON Web Token (JWT), Bcrypt password hashing, CORS Middleware
-- **Data Layer**: Node-based Data Persistence / Custom JSON Engine (Sẵn sàng tích hợp MongoDB / PostgreSQL)
-
----
-
-## 📐 Kiến Trúc Hệ Thống (System Architecture)
-
-```
-                       +-------------------------+
-                       |      Client Browser     |
-                       |  (React 18 + Vite UI)   |
-                       +------------+------------+
-                                    |
-                                    | RESTful API (HTTP/JSON + JWT)
-                                    v
-                       +-------------------------+
-                       |     Express.js API      |
-                       |  (Middlewares / CORS)   |
-                       +------------+------------+
-                                    |
-        +---------------------------+---------------------------+
-        |                           |                           |
-        v                           v                           v
-+---------------+           +---------------+           +---------------+
-| Auth Module   |           | Booking Engine|           | Admin Module  |
-| (JWT/Bcrypt)  |           | & Pet Records |           | & Analytics   |
-+---------------+           +---------------+           +---------------+
+## 5) Kien Truc Tong Quan
+```text
+Browser (React + Vite)
+        |
+        | HTTP JSON (/api)
+        v
+Express API Server (Node.js)
+        |
+        v
+JsonDB (data/db.json + seedData.json)
 ```
 
----
-
-## 📁 Cấu Trúc Thư Mục (Folder Structure)
-
-```bash
+## 6) Cau Truc Thu Muc
+```text
 BossHouse/
-├── BossHouse_Frontend/       # Mã nguồn Giao diện Người dùng (React.js)
-│   ├── public/               # Tài nguyên tĩnh (Images, Favicon)
-│   ├── src/
-│   │   ├── components/       # Các UI Component dùng chung (Navbar, Footer, Modal, Card)
-│   │   ├── pages/            # Các trang giao diện (HomePage, AdminDashboard, RoomsPage...)
-│   │   ├── services/         # Tích hợp API service calls
-│   │   ├── App.jsx           # Component chính & Navigation Routing
-│   │   └── main.jsx          # Entry point
-│   └── package.json
-│
-└── BossHouse_Backend/        # Mã nguồn Máy chủ & API (Node.js/Express)
-    ├── bin/www               # Khởi chạy HTTP Server
-    ├── data/                 # Cơ sở dữ liệu & Seed Data
-    ├── routes/api/           # RESTful Endpoints (Auth, Rooms, Services, Bookings, Pets, Admin)
-    ├── app.js                # Cấu hình Express App & Middlewares
-    └── package.json
+|-- BossHouse_Frontend/
+|   |-- src/
+|   |   |-- components/
+|   |   |-- pages/
+|   |   `-- services/api.js
+|   `-- vite.config.js
+|
+`-- BossHouse_Backend/
+    |-- app.js
+    |-- bin/www
+    |-- config/db.js
+    |-- data/
+    `-- routes/api/
 ```
 
----
+## 7) Quick Start (5 phut)
+Yeu cau:
+- Node.js 16+ (khuyen nghi 18+)
+- npm
 
-## 🚀 Hướng Dẫn Cài Đặt & Khởi Chạy (Getting Started)
-
-### Yêu cầu tiên quyết (Prerequisites)
-- [Node.js](https://nodejs.org/) (Phiên bản 16.x hoặc mới hơn)
-- `npm` hoặc `yarn`
-
-### 1. Cài đặt Backend
+Buoc 1 - Chay Backend
 ```bash
-# Di chuyển vào thư mục backend
 cd BossHouse_Backend
-
-# Cài đặt các thư viện phụ thuộc
 npm install
-
-# Khởi chạy server ở chế độ Development
 npm run dev
-# Backend Server sẽ chạy tại: http://localhost:3000 (API Endpoint: http://localhost:3000/api)
 ```
+Backend mac dinh chay o:
+- http://localhost:5000
+- health check nhanh: http://localhost:5000/api
 
-### 2. Cài đặt Frontend
+Buoc 2 - Chay Frontend
 ```bash
-# Mở một cửa sổ Terminal mới và di chuyển vào thư mục frontend
 cd BossHouse_Frontend
-
-# Cài đặt các thư viện phụ thuộc
 npm install
-
-# Khởi chạy Frontend với Vite
 npm run dev
-# Giao diện ứng dụng sẽ chạy tại: http://localhost:5173
 ```
+Frontend mac dinh:
+- http://localhost:5173
 
----
+Ghi chu ket noi:
+- Frontend da proxy /api sang backend http://localhost:5000 trong vite config.
 
-## 🌐 Danh Sách API chính (Core API Endpoints)
+## 8) Core API Summary
+| Method | Endpoint | Mo ta |
+| --- | --- | --- |
+| POST | /api/auth/register | Dang ky tai khoan |
+| POST | /api/auth/login | Dang nhap |
+| GET | /api/auth/me | Lay thong tin user hien tai |
+| PUT | /api/auth/profile | Cap nhat profile |
+| GET | /api/rooms | Danh sach phong |
+| POST | /api/bookings | Tao booking |
+| PUT | /api/bookings/:id/cancel | Huy booking |
+| PUT | /api/bookings/:id/status | Admin cap nhat trang thai |
+| GET | /api/admin/stats | Thong ke dashboard |
 
-| Method | Endpoint | Mô tả |
-| :--- | :--- | :--- |
-| `POST` | `/api/auth/register` | Đăng ký tài khoản khách hàng mới |
-| `POST` | `/api/auth/login` | Đăng nhập & Nhận JWT Token |
-| `GET` | `/api/rooms` | Lấy danh sách phòng lưu trú |
-| `GET` | `/api/services` | Lấy danh sách dịch vụ chăm sóc |
-| `GET` | `/api/pets` | Lấy danh sách thú cưng của người dùng |
-| `POST` | `/api/bookings` | Tạo đơn đặt phòng / dịch vụ mới |
-| `GET` | `/api/admin/stats` | Thống kê số liệu hệ thống dành cho Admin |
+## 9) Cach Danh Gia Nhanh Du An (Recruiter Checklist)
+Neu ban la recruiter/tech interviewer, co the kiem tra nhanh:
+1. Kha nang tao luong nghiep vu tu UI den API (tao pet -> tao booking -> cap nhat status).
+2. Kha nang thiet ke route va tach module backend.
+3. Kha nang to chuc component/pages trong frontend.
+4. Kha nang nhan dien han che hien tai va lap ke hoach nang cap.
 
----
+## 10) Roadmap Nang Cap (Portfolio -> Production)
+### Phase 1 - Security Baseline
+- Chuyen token don gian sang JWT thuc su.
+- Hash password voi bcrypt.
+- Tach middleware auth/role cho admin routes.
 
-## 🎯 Định Hướng Phát Triển (Future Roadmap)
+### Phase 2 - Data & Reliability
+- Chuyen JsonDB sang PostgreSQL hoac MongoDB.
+- Them schema validation cho request.
+- Them pagination/filter/sort cho API list.
 
-- [ ] Tích hợp cổng thanh toán trực tuyến (**VNPAY**, **MoMo**).
-- [ ] Gửi thông báo thời gian thực (**Socket.io** / Email Notification) khi đơn đặt được phê duyệt.
-- [ ] Xây dựng ứng dụng di động (**React Native**) đồng bộ dữ liệu với Backend.
-- [ ] Chuyển đổi Cơ sở dữ liệu sang **MongoDB Atlas** / **PostgreSQL** hỗ trợ Scale lớn.
+### Phase 3 - Product Experience
+- Tich hop thanh toan online (VNPAY/MoMo).
+- Thong bao realtime/email cho booking status.
+- Dashboard bao cao chi tiet theo ngay/thang.
 
----
+### Phase 4 - Engineering Quality
+- Unit test + integration test.
+- CI pipeline lint + test.
+- Docker hoa va deploy cloud.
 
-## 👤 Tác Giả (Author & Contact)
+## 11) Gia Tri Hoc Tap Tu Du An
+- Hieu cach bien yeu cau nghiep vu thanh API va UI flow ro rang.
+- Hieu trade-off giua toc do phat trien MVP va yeu cau production.
+- Hieu cach trinh bay du an minh bach, trung thuc, co dinh huong phat trien.
 
-- **Họ và tên**: Cao Huỳnh Ngọc Như
-- **Vị trí mong muốn**: Full-stack Developer / Frontend Developer (React.js / Node.js)
-- **GitHub**: [github.com/NgocNhu1824](https://github.com/NgocNhu1824)
-- **Project Repository**: [BossHouse](https://github.com/NgocNhu1824/BossHouse)
+## 12) Author
+- Ho va ten: Cao Huynh Ngoc Nhu
+- Dinh huong: Frontend Developer / Full-stack Developer
+- GitHub: https://github.com/NgocNhu1824
+- Repository: https://github.com/NgocNhu1824/BossHouse
 
----
-*Cảm ơn Quý doanh nghiệp / Nhà tuyển dụng đã dành thời gian xem qua dự án!* 🚀
+## 13) Readme Theo Tung Layer
+- Frontend details: [BossHouse_Frontend/README.md](BossHouse_Frontend/README.md)
+- Backend details: [BossHouse_Backend/README.md](BossHouse_Backend/README.md)
